@@ -1,0 +1,121 @@
+.about {
+    position: relative;
+    overflow: hidden;
+}
+
+.aboutGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-3xl);
+    align-items: center;
+}
+
+.aboutImage {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+}
+
+.aboutImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.aboutImageOverlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, transparent 60%);
+}
+
+.aboutContent h2 {
+    font-size: var(--fs-3xl);
+    font-weight: var(--fw-bold);
+    letter-spacing: -0.02em;
+    margin-bottom: var(--spacing-lg);
+    line-height: 1.2;
+}
+
+.aboutContent h2 em {
+    font-style: normal;
+    color: var(--color-text-muted);
+}
+
+.aboutDescription {
+    font-size: var(--fs-md);
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+    margin-bottom: var(--spacing-xl);
+}
+
+.aboutFeatures {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-2xl);
+}
+
+.feature {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+}
+
+.featureIcon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-primary);
+    transition: all var(--transition-base);
+    border-radius: var(--radius-md);
+    font-size: var(--fs-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.feature:hover .featureIcon {
+    color: var(--color-white);
+    transform: scale(1.1);
+}
+
+.featureIcon::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--glass-highlight);
+    pointer-events: none;
+}
+
+.featureText h4 {
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+    margin-bottom: 2px;
+}
+
+.featureText p {
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+}
+
+@media (max-width: 900px) {
+    .aboutGrid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-2xl);
+    }
+}
+
+@media (max-width: 600px) {
+    .aboutFeatures {
+        grid-template-columns: 1fr;
+    }
+}

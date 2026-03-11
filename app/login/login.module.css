@@ -1,0 +1,186 @@
+.authPage {
+    padding-top: calc(var(--header-height) + var(--spacing-3xl));
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: var(--spacing-3xl);
+}
+
+.authCard {
+    width: 100%;
+    max-width: 440px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-2xl);
+    box-shadow: var(--glass-shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.authCard::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--glass-highlight);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.authLogo {
+    text-align: center;
+    margin-bottom: var(--spacing-2xl);
+    position: relative;
+    z-index: 1;
+}
+
+.authLogo h1 {
+    font-size: var(--fs-xl);
+    font-weight: var(--fw-black);
+    letter-spacing: -0.03em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+}
+
+.authLogo .dot {
+    width: 8px;
+    height: 8px;
+    background: var(--color-white);
+    border-radius: 50%;
+}
+
+.authLogo p {
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+    margin-top: var(--spacing-sm);
+}
+
+.tabs {
+    display: flex;
+    gap: 2px;
+    margin-bottom: var(--spacing-xl);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    padding: 3px;
+    position: relative;
+    z-index: 1;
+}
+
+.tab {
+    flex: 1;
+    padding: 10px;
+    border-radius: var(--radius-sm);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+    text-align: center;
+    color: var(--color-text-muted);
+    transition: all var(--transition-fast);
+}
+
+.tab.active {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--color-white);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.tab:hover {
+    color: var(--color-text-secondary);
+}
+
+.submitBtn {
+    width: 100%;
+    padding: 14px;
+    background: var(--color-white);
+    color: var(--color-bg-primary);
+    border-radius: var(--radius-md);
+    font-weight: var(--fw-semibold);
+    font-size: var(--fs-base);
+    transition: all var(--transition-base);
+    margin-top: var(--spacing-sm);
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.1);
+}
+
+.submitBtn:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 24px rgba(255, 255, 255, 0.2);
+}
+
+.authFooter {
+    text-align: center;
+    margin-top: var(--spacing-xl);
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+    position: relative;
+    z-index: 1;
+}
+
+.authFooter a {
+    color: var(--color-white);
+    font-weight: var(--fw-medium);
+    margin-left: 4px;
+}
+
+.authFooter a:hover {
+    text-decoration: underline;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin: var(--spacing-xl) 0;
+    color: var(--color-text-muted);
+    font-size: var(--fs-xs);
+    position: relative;
+    z-index: 1;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--glass-border);
+}
+
+.socialLogin {
+    display: flex;
+    gap: var(--spacing-sm);
+    position: relative;
+    z-index: 1;
+}
+
+.socialLoginBtn {
+    flex: 1;
+    padding: 10px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text-secondary);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    box-shadow: var(--glass-shadow);
+}
+
+.socialLoginBtn:hover {
+    border-color: var(--glass-border-hover);
+    color: var(--color-white);
+    background: var(--glass-bg-hover);
+}

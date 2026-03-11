@@ -1,0 +1,362 @@
+.shopPage {
+    padding-top: calc(var(--header-height) + var(--spacing-2xl));
+    min-height: 100vh;
+}
+
+.shopHeader {
+    margin-bottom: var(--spacing-2xl);
+}
+
+.shopHeader h1 {
+    font-size: var(--fs-3xl);
+    font-weight: var(--fw-bold);
+    letter-spacing: -0.02em;
+    margin-bottom: var(--spacing-sm);
+}
+
+.shopHeader p {
+    color: var(--color-text-secondary);
+    font-size: var(--fs-md);
+}
+
+.shopLayout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: var(--spacing-2xl);
+    align-items: start;
+}
+
+/* Sidebar — Liquid Glass */
+.sidebar {
+    position: sticky;
+    top: calc(var(--header-height) + var(--spacing-xl));
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+    box-shadow: var(--glass-shadow);
+    position: sticky;
+    overflow: hidden;
+}
+
+.sidebar::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--glass-highlight);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.filterSection h3 {
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-md);
+    position: relative;
+    z-index: 1;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 10px 14px 10px 38px;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--color-white);
+    font-size: var(--fs-sm);
+    transition: all var(--transition-fast);
+    position: relative;
+    z-index: 1;
+}
+
+.searchInput:focus {
+    border-color: var(--glass-border-hover);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.searchInput::placeholder {
+    color: var(--color-text-muted);
+}
+
+.searchWrapper {
+    position: relative;
+    z-index: 1;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+    z-index: 2;
+}
+
+.categoryList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    position: relative;
+    z-index: 1;
+}
+
+.categoryOption {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    cursor: pointer;
+    font-size: var(--fs-sm);
+    color: var(--color-text-secondary);
+    transition: color var(--transition-fast);
+}
+
+.categoryOption:hover {
+    color: var(--color-white);
+}
+
+.categoryOption input[type="checkbox"] {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--glass-border-hover);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.04);
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.categoryOption input[type="checkbox"]:checked {
+    background: var(--color-white);
+    border-color: var(--color-white);
+}
+
+.categoryOption input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #000;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.priceRange {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    position: relative;
+    z-index: 1;
+}
+
+.rangeSlider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    outline: none;
+}
+
+.rangeSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: var(--color-white);
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.priceLabels {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+}
+
+.clearBtn {
+    width: 100%;
+    padding: 10px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text-secondary);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+    transition: all var(--transition-fast);
+    position: relative;
+    z-index: 1;
+}
+
+.clearBtn:hover {
+    border-color: var(--glass-border-hover);
+    color: var(--color-white);
+    background: var(--glass-bg-hover);
+}
+
+/* Main Content */
+.shopMain {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+}
+
+.toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+}
+
+.resultCount {
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+}
+
+.resultCount strong {
+    color: var(--color-white);
+}
+
+.sortSelect {
+    padding: 8px 14px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text-secondary);
+    font-size: var(--fs-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.sortSelect:focus {
+    border-color: var(--glass-border-hover);
+    background: var(--glass-bg-hover);
+}
+
+.productGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-lg);
+}
+
+/* Pagination — Liquid Glass */
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-xl);
+}
+
+.pageBtn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    color: var(--color-text-secondary);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+    transition: all var(--transition-fast);
+    box-shadow: var(--glass-shadow);
+}
+
+.pageBtn:hover {
+    border-color: var(--glass-border-hover);
+    color: var(--color-white);
+    background: var(--glass-bg-hover);
+}
+
+.pageBtn.active {
+    background: var(--color-white);
+    color: var(--color-bg-primary);
+    border-color: var(--color-white);
+    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.15);
+}
+
+.pageBtn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.noResults {
+    text-align: center;
+    padding: var(--spacing-4xl) var(--spacing-xl);
+    color: var(--color-text-muted);
+}
+
+.noResults h3 {
+    font-size: var(--fs-xl);
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text-secondary);
+}
+
+/* Mobile Filter Toggle */
+.mobileFilterBtn {
+    display: none;
+    padding: 10px 18px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text-secondary);
+    font-size: var(--fs-sm);
+    gap: var(--spacing-sm);
+    align-items: center;
+    box-shadow: var(--glass-shadow);
+}
+
+@media (max-width: 900px) {
+    .shopLayout {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        position: static;
+        display: none;
+    }
+
+    .sidebar.open {
+        display: flex;
+    }
+
+    .mobileFilterBtn {
+        display: inline-flex;
+    }
+
+    .productGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .productGrid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+}

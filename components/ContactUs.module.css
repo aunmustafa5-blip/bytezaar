@@ -1,0 +1,186 @@
+.contact {
+    position: relative;
+}
+
+.contactGrid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: var(--spacing-3xl);
+    align-items: start;
+}
+
+.contactInfo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2xl);
+}
+
+.contactInfo h2 {
+    font-size: var(--fs-3xl);
+    font-weight: var(--fw-bold);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+.contactInfo h2 em {
+    font-style: normal;
+    color: var(--color-text-muted);
+}
+
+.contactDescription {
+    font-size: var(--fs-md);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+}
+
+.contactDetails {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.contactItem {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.contactItemIcon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-bottom-color: rgba(255, 255, 255, 0.02);
+    border-right-color: rgba(255, 255, 255, 0.02);
+    border-radius: var(--radius-md);
+    color: var(--color-text-secondary);
+    flex-shrink: 0;
+    box-shadow: var(--glass-shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.contactItemIcon::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--glass-highlight);
+    pointer-events: none;
+}
+
+.contactItemText h4 {
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+    margin-bottom: 2px;
+}
+
+.contactItemText p {
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+}
+
+.contactSocials {
+    display: flex;
+    gap: var(--spacing-md);
+}
+
+.socialBtn {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-bottom-color: rgba(255, 255, 255, 0.02);
+    border-right-color: rgba(255, 255, 255, 0.02);
+    color: var(--color-text-muted);
+    transition: all var(--transition-fast);
+    box-shadow: var(--glass-shadow);
+}
+
+.socialBtn:hover {
+    border-color: var(--glass-border-hover);
+    color: var(--color-white);
+    background: var(--glass-bg-hover);
+    box-shadow: var(--glass-shadow-hover);
+}
+
+.contactForm {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur-heavy);
+    -webkit-backdrop-filter: var(--glass-blur-heavy);
+    border: 1px solid var(--glass-border);
+    border-bottom-color: rgba(255, 255, 255, 0.03);
+    border-right-color: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-2xl);
+    box-shadow: var(--glass-shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.contactForm::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--glass-highlight);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.formRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+    position: relative;
+    z-index: 2;
+}
+
+.submitBtn {
+    width: 100%;
+    padding: 14px;
+    background: var(--color-white);
+    color: var(--color-bg-primary);
+    border-radius: var(--radius-md);
+    font-weight: var(--fw-semibold);
+    font-size: var(--fs-base);
+    transition: all var(--transition-base);
+    margin-top: var(--spacing-sm);
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.1);
+}
+
+.submitBtn:hover {
+    opacity: 0.95;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 900px) {
+    .contactGrid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-2xl);
+    }
+}
+
+@media (max-width: 600px) {
+    .formRow {
+        grid-template-columns: 1fr;
+    }
+
+    .contactForm {
+        padding: var(--spacing-lg);
+    }
+}
