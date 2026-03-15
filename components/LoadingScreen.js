@@ -18,10 +18,12 @@ export default function LoadingScreen() {
 
     if (!isLoading) return null;
 
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
     return (
         <div className={`${styles.loadingContainer} ${fadeOut ? styles.fadeOut : ''}`}>
             <video
-                src="/loading.mp4"
+                src={`${basePath}/loading.mp4`}
                 autoPlay
                 muted
                 loop
