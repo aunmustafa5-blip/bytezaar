@@ -1,0 +1,16 @@
+[
+    {
+        "id": 1,
+        "name": "NIA Pro Wireless Headphones",
+        "category": "Headphones",
+        "price": 149.99,
+        "originalPrice": 199.99,
+        "image": "/images/Whisk_85f4bb9cb254f6c81dd4df4c765b910adr.png",
+        "description": "Premium wireless headphones.",
+        "rating": 4.8,
+        "reviews": 234,
+        "badge": "Best Seller",
+        "inStock": true,
+        "dateAdded": "2026-01-15"
+    }
+]

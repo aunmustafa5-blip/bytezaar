@@ -3,14 +3,18 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "predev": "node scripts/fetch-google-sheets.js",
     "dev": "next dev",
+    "prebuild": "node scripts/fetch-google-sheets.js",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
     "lucide-react": "^0.575.0",
     "next": "^16.1.6",
+    "papaparse": "^5.5.3",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react-dom": "^19.2.4",
+    "xlsx": "^0.18.5"
   }
 }

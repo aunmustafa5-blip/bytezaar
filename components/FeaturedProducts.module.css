@@ -1,91 +1,223 @@
 .grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--spacing-lg);
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.card {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    background: #0D1117;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                border-color 0.4s ease;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 28px 60px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(99, 179, 237, 0.18);
+    border-color: rgba(99, 179, 237, 0.28);
+}
+
+.imageWrapper {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.imageLayer {
+    object-fit: cover;
+    transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover .imageLayer {
+    transform: scale(1.07);
+}
+
+.gradientOverlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(8, 10, 15, 0.97) 0%, rgba(8, 10, 15, 0.55) 45%, transparent 72%);
+    transition: background 0.4s ease;
+    z-index: 1;
+}
+
+.card:hover .gradientOverlay {
+    background: linear-gradient(to top, rgba(8, 10, 15, 0.99) 0%, rgba(8, 10, 15, 0.75) 55%, rgba(8, 10, 15, 0.1) 80%);
+}
+
+.topRow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    z-index: 2;
 }
 
 .badge {
-    position: absolute;
-    top: var(--spacing-md);
-    left: var(--spacing-md);
     padding: 4px 12px;
-    background: var(--color-white);
-    color: var(--color-bg-primary);
-    border-radius: var(--radius-full);
-    font-size: 11px;
-    font-weight: var(--fw-bold);
-    letter-spacing: 0.05em;
+    border-radius: 50px;
+    font-size: 10px;
+    font-weight: 700;
     text-transform: uppercase;
-    z-index: 2;
+    letter-spacing: 0.12em;
+}
+
+.badgeNew {
+    border: 1px solid #63B3ED;
+    color: #63B3ED;
+    background: rgba(99, 179, 237, 0.1);
+}
+
+.badgeSale {
+    border: 1px solid #FC8181;
+    color: #FC8181;
+    background: rgba(252, 129, 129, 0.1);
+}
+
+.badgeBestSeller {
+    border: 1px solid #F6AD55;
+    color: #F6AD55;
+    background: rgba(246, 173, 85, 0.1);
 }
 
 .wishlistBtn {
-    position: absolute;
-    top: var(--spacing-md);
-    right: var(--spacing-md);
-    width: 34px;
-    height: 34px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    color: var(--color-text-secondary);
-    transition: all var(--transition-fast);
-    z-index: 2;
+    color: white;
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
 
 .wishlistBtn:hover {
-    color: #FF6B6B;
-    background: rgba(0, 0, 0, 0.5);
-    border-color: rgba(255, 107, 107, 0.3);
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.1);
 }
 
-.addToCartBtn {
-    width: 100%;
-    padding: 10px;
-    background: var(--glass-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-md);
-    color: var(--color-white);
-    font-size: var(--fs-sm);
-    font-weight: var(--fw-medium);
-    transition: all var(--transition-base);
+.bottomContent {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 18px;
+    z-index: 2;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--spacing-sm);
+    flex-direction: column;
+    gap: 4px;
 }
 
-.addToCartBtn:hover {
-    background: var(--color-white);
-    color: var(--color-bg-primary);
-    border-color: var(--color-white);
-    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.15);
+.categoryLabel {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #63B3ED;
 }
 
-.originalPrice {
-    font-size: var(--fs-sm);
-    color: var(--color-text-muted);
-    text-decoration: line-through;
-    margin-left: var(--spacing-sm);
+.productName {
+    font-size: 15px;
+    font-weight: 500;
+    color: #F7FAFC;
+    margin: 0;
 }
 
 .ratingRow {
     display: flex;
     align-items: center;
-    gap: var(--spacing-sm);
-    margin-bottom: var(--spacing-sm);
+    gap: 6px;
 }
 
-.ratingText {
-    font-size: var(--fs-xs);
-    color: var(--color-text-muted);
+.reviewCount {
+    font-size: 11px;
+    color: #718096;
+}
+
+.priceRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 2px;
+}
+
+.currentPrice {
+    font-family: var(--font-mono, monospace);
+    font-size: 15px;
+    color: #F7FAFC;
+}
+
+.originalPrice {
+    font-family: var(--font-mono, monospace);
+    font-size: 12px;
+    color: #4A5568;
+    text-decoration: line-through;
+}
+
+.savingsPill {
+    background: rgba(72, 187, 120, 0.15);
+    color: #48BB78;
+    border: 1px solid rgba(72, 187, 120, 0.3);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.shortSpec {
+    font-size: 11px;
+    color: #718096;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 250ms ease;
+    max-height: 0;
+    overflow: hidden;
+}
+
+.card:hover .shortSpec {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 20px;
+    margin-top: 4px;
+}
+
+.ctaButton {
+    width: 100%;
+    height: 44px;
+    background: linear-gradient(135deg, #63B3ED, #00D4FF);
+    color: #080A0F;
+    border: none;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 250ms ease;
+    margin-top: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card:hover .ctaButton {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 @media (max-width: 1024px) {
@@ -97,7 +229,5 @@
 @media (max-width: 600px) {
     .grid {
         grid-template-columns: 1fr;
-        max-width: 400px;
-        margin: 0 auto;
     }
-}
+}

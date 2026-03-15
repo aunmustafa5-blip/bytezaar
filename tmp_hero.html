@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bytezaar Hero - Liquid Glass Edition</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#258cf4",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#000000",
+                        "glass-border": "rgba(255, 255, 255, 0.1)",
+                        "glass-bg": "rgba(255, 255, 255, 0.03)",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .text-gradient {
+            background: linear-gradient(to right, #258cf4, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glow-soft {
+            box-shadow: 0 0 30px rgba(37, 140, 244, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 overflow-x-hidden">
+<div class="relative min-h-screen flex flex-col">
+<!-- Navbar -->
+<header class="relative z-50 flex items-center justify-between px-8 md:px-20 py-6 border-b border-white/5 bg-black/20 backdrop-blur-md">
+<div class="flex items-center gap-12">
+<div class="flex items-center gap-3">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined !text-xl">polymer</span>
+</div>
+<h2 class="text-xl font-bold tracking-tight">Bytezaar</h2>
+</div>
+<nav class="hidden lg:flex items-center gap-8">
+<a class="text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="#">Shop</a>
+<a class="text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="#">Categories</a>
+<a class="text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="#">New Arrivals</a>
+<a class="text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="#">Support</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center bg-white/5 border border-white/10 rounded-full px-4 py-1.5 gap-3 w-64">
+<span class="material-symbols-outlined text-slate-400 !text-lg">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm placeholder:text-slate-500 w-full p-0" placeholder="Search tech..." type="text"/>
+</div>
+<div class="flex items-center gap-3">
+<button class="size-10 rounded-full glass-panel flex items-center justify-center hover:bg-white/10 transition-all">
+<span class="material-symbols-outlined !text-xl">shopping_cart</span>
+</button>
+<button class="size-10 rounded-full glass-panel flex items-center justify-center hover:bg-white/10 transition-all">
+<span class="material-symbols-outlined !text-xl">person</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Hero Content -->
+<main class="relative flex-1 flex flex-col lg:flex-row items-center justify-between px-8 md:px-20 py-12 lg:py-0 max-w-screen-2xl mx-auto w-full">
+<!-- Background Ambient Glows -->
+<div class="absolute top-1/4 left-0 w-[500px] h-[500px] bg-primary/10 blur-[120px] rounded-full -translate-x-1/2 -z-10"></div>
+<div class="absolute bottom-1/4 right-0 w-[400px] h-[400px] bg-primary/5 blur-[100px] rounded-full translate-x-1/3 -z-10"></div>
+<!-- Left Column: Content -->
+<div class="w-full lg:w-1/2 flex flex-col gap-8 z-10">
+<!-- Badge -->
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 w-fit glow-soft">
+<span class="flex h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>
+<span class="text-xs font-semibold uppercase tracking-widest text-primary">New Collection 2026</span>
+</div>
+<!-- Heading -->
+<h1 class="text-5xl lg:text-7xl font-black leading-[1.1] tracking-tighter">
+                Premium Tech Accessories for <span class="text-gradient">Everyday</span> Performance
+            </h1>
+<!-- Subtitle -->
+<p class="text-lg lg:text-xl text-slate-400 font-normal max-w-xl leading-relaxed">
+                Experience the fusion of high-performance engineering and liquid glass aesthetics. Headphones, Keyboards, Mouse, Projectors &amp; More.
+            </p>
+<!-- CTA Buttons -->
+<div class="flex flex-wrap gap-4 pt-2">
+<button class="px-8 py-4 bg-primary hover:bg-blue-600 text-white font-bold rounded-xl transition-all flex items-center gap-2 shadow-lg shadow-primary/20 group">
+<span>Shop Now</span>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<button class="px-8 py-4 glass-panel hover:bg-white/10 text-white font-bold rounded-xl transition-all border border-white/10">
+                    Explore Categories
+                </button>
+</div>
+<!-- Stats -->
+<div class="flex flex-wrap gap-8 pt-10 mt-6 border-t border-white/5">
+<div class="flex flex-col gap-1">
+<span class="text-2xl font-bold text-white">500+</span>
+<span class="text-sm text-slate-500 font-medium">Products</span>
+</div>
+<div class="w-px h-12 bg-white/10 hidden sm:block"></div>
+<div class="flex flex-col gap-1">
+<span class="text-2xl font-bold text-white">50K+</span>
+<span class="text-sm text-slate-500 font-medium">Customers</span>
+</div>
+<div class="w-px h-12 bg-white/10 hidden sm:block"></div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-1.5">
+<span class="text-2xl font-bold text-white">4.9</span>
+<span class="material-symbols-outlined text-amber-400 !text-xl fill-amber-400">star</span>
+</div>
+<span class="text-sm text-slate-500 font-medium">Global Rating</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Visual Showcase -->
+<div class="w-full lg:w-1/2 relative h-[600px] mt-16 lg:mt-0 flex items-center justify-center">
+<!-- Liquid Glass Panels & Products Layout -->
+<div class="relative w-full h-full flex items-center justify-center">
+<!-- Floating Glass Card 1 (Back) -->
+<div class="absolute w-80 h-96 glass-panel rounded-3xl -rotate-12 translate-x-[-20%] translate-y-[-10%] opacity-40 shadow-2xl"></div>
+<!-- Floating Glass Card 2 (Middle) -->
+<div class="absolute w-72 h-72 glass-panel rounded-3xl rotate-6 translate-x-[40%] translate-y-[-30%] opacity-60 shadow-2xl"></div>
+<!-- Main Glass Card (Front) -->
+<div class="absolute w-[450px] h-[350px] glass-panel rounded-3xl flex items-center justify-center shadow-2xl z-20">
+<!-- Headphone Visual -->
+<div class="relative w-full h-full p-8 flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="text-slate-500 text-xs font-mono uppercase tracking-widest">Model X-2026</span>
+<span class="text-primary font-bold">$299.00</span>
+</div>
+<div class="w-full aspect-square relative -mt-10">
+<img alt="Premium studio headphones" class="w-full h-full object-contain drop-shadow-2xl brightness-110" data-alt="Premium black studio headphones floating over glass" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMcWmcjmqcltkk5V5FweceGqV-drX58heR0o5bRVFzKurQ9oqhzSu8AwcF4zKcXHHCpQL9J4p4ke5pmin1Xdx1hMHXMMD1GLG4VI8Yzm52ItUfluM18SaJJLuCrY6Hqe1vu3HJB7_7PqaUql5Mk8gQt29LVG5jhIzle91dr6KAkReB3SG_RVuXHt6F6IX2PEBrcGcUahpcW_MPuUN5-MZgg8ZS3LXwquRNjPSC7cAar7-brf2eeLB-6uXvnwEarGwYYokeNdVwW0mu"/>
+</div>
+<div class="flex gap-2">
+<div class="size-6 rounded-full bg-slate-800 border border-white/20"></div>
+<div class="size-6 rounded-full bg-primary border border-white/20"></div>
+<div class="size-6 rounded-full bg-slate-500 border border-white/20"></div>
+</div>
+</div>
+</div>
+<!-- Floating Peripheral: Mouse -->
+<div class="absolute right-[5%] bottom-[15%] z-30 w-48 h-48 glass-panel rounded-2xl flex items-center justify-center rotate-[-15deg] glow-soft overflow-hidden">
+<img alt="Gaming Mouse" class="w-3/4 h-3/4 object-contain" data-alt="Modern ergonomic gaming mouse on glass surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyfe45z1WOCpvdb9Jt2HwzQr59E25wyHLmRxivqPREVsVSAcJKqD5hCkmpt5r5br_KxEgd2OipnM0X1PHwyfDuWykkZdHNCZqeUQWalk6voLtwx4qapXDJNn_Ztm53ZQsdg1sGE08Tc4olreoQyEkDpqWC6e0MsRifvFZ49n4yhL0i615mBLozn0ZKp_NVzxWuW84uXhsucR8gkOi3bbJw4y5mRDjLnV9Pb2JozxRj7iL3_PG2h1vXaBYIMspGswPfEGIRRPXXHW9z"/>
+</div>
+<!-- Floating Peripheral: Keyboard -->
+<div class="absolute left-[-5%] top-[55%] z-30 w-64 h-32 glass-panel rounded-2xl flex items-center justify-center rotate-[10deg] glow-soft overflow-hidden">
+<img alt="Mechanical Keyboard" class="w-5/6 h-5/6 object-contain" data-alt="Low profile mechanical keyboard with subtle backlighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-3b6oMBt9Z1YtMW_omIc3nY_Koh_9L1IYAg1-Cin7oyxwtqspUBbYqSZjzUI8h2WwjO3I21R8gwYvIz0qk-CjILW_csFCA4J_J7ux3uAQoh_ReIITWK5UDj7SfIl8GN1Il4uTWvjxR2TBJQvjmsEdPNcbUKcEaMdrja8IgRMlxy6hClsv62AvFUUohZMIP5x9c-o9eNbz8BNKrP5J9UrWzgaeJAafa7FeYj2E5qid5DNhgrjFmYBkIH3C0cUJIcvQbDz0Uz3nv0R1"/>
+</div>
+<!-- Ambient Inset Accents -->
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent z-40 h-1/4 bottom-0"></div>
+</div>
+</div>
+</main>
+<!-- Footer Area (Subtle) -->
+<footer class="mt-auto px-8 md:px-20 py-10 flex flex-col md:flex-row items-center justify-between border-t border-white/5 bg-black/40 backdrop-blur-sm z-50">
+<div class="flex flex-wrap items-center justify-center md:justify-start gap-8">
+<a class="text-slate-500 hover:text-white transition-colors text-sm" href="#">Privacy Policy</a>
+<a class="text-slate-500 hover:text-white transition-colors text-sm" href="#">Terms of Service</a>
+<a class="text-slate-500 hover:text-white transition-colors text-sm" href="#">Contact Us</a>
+</div>
+<div class="mt-6 md:mt-0">
+<p class="text-slate-600 text-sm">© 2026 Bytezaar. All rights reserved.</p>
+</div>
+</footer>
+</div>
+</body></html>

@@ -1,6 +1,8 @@
 'use client';
 import { categories } from '@/lib/data';
 import Link from 'next/link';
+import Image from 'next/image';
+import { ArrowRight } from 'lucide-react';
 import styles from './Categories.module.css';
 
 export default function Categories() {
@@ -15,8 +17,9 @@ export default function Categories() {
 
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
-        const tiltX = ((e.clientY - centerY) / (rect.height / 2)) * -6; /* slightly less tilt for smaller cards */
-        const tiltY = ((e.clientX - centerX) / (rect.width / 2)) * 6;
+        // Subtle tilt for the bento items
+        const tiltX = ((e.clientY - centerY) / (rect.height / 2)) * -4; 
+        const tiltY = ((e.clientX - centerX) / (rect.width / 2)) * 4;
         card.style.setProperty('--rotate-x', `${tiltX}deg`);
         card.style.setProperty('--rotate-y', `${tiltY}deg`);
     };
@@ -28,27 +31,36 @@ export default function Categories() {
     };
 
     return (
-        <section className="section parallax-slow" id="categories">
+        <section className="section" id="categories">
             <div className="container">
-                <h2 className="section-title">Browse Categories</h2>
-                <p className="section-subtitle">
-                    Find exactly what you need from our curated collections
-                </p>
+                <h2 className={`section-title display-font ${styles.title}`}>Shop by Category</h2>
                 <div className={styles.grid}>
-                    {categories.map(cat => (
+                    {categories.map((cat, index) => (
                         <Link
                             href="/shop"
                             key={cat.id}
-                            style={{ textDecoration: 'none', color: 'inherit' }}
+                            className={`${styles.categoryCard} ${index === 0 ? styles.largeCard : ''}`}
+                            onMouseMove={handleMouseMove}
+                            onMouseLeave={handleMouseLeave}
                         >
-                            <div
-                                className={styles.categoryCard}
-                                onMouseMove={handleMouseMove}
-                                onMouseLeave={handleMouseLeave}
-                            >
-                                <span className={styles.categoryIcon}>{cat.icon}</span>
+                            <div className={styles.imageWrapper}>
+                                <Image
+                                    src={cat.image}
+                                    alt={cat.name}
+                                    width={index === 0 ? 600 : 300}
+                                    height={index === 0 ? 600 : 300}
+                                    className={styles.bgImage}
+                                    priority={index === 0}
+                                />
+                                <div className={styles.overlay} />
+                            </div>
+                            
+                            <div className={styles.textContent}>
                                 <h3 className={styles.categoryName}>{cat.name}</h3>
                                 <p className={styles.categoryCount}>{cat.count} Products</p>
+                                <div className={styles.shopLink}>
+                                    Shop Collection <ArrowRight size={16} className={styles.arrowIcon} />
+                                </div>
                             </div>
                         </Link>
                     ))}

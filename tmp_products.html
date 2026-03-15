@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#258cf4",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#000000",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .liquid-glass {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        }
+        .radial-glow {
+            background: radial-gradient(circle at 50% 0%, rgba(37, 140, 244, 0.15) 0%, transparent 70%);
+        }
+        .ambient-blur {
+            filter: blur(120px);
+            opacity: 0.4;
+        }
+    </style>
+</head>
+<body class="bg-background-dark font-display text-slate-100 antialiased min-h-screen relative overflow-x-hidden">
+<!-- Ambient Background Glows -->
+<div class="absolute -top-24 -left-24 w-96 h-96 bg-primary ambient-blur rounded-full pointer-events-none"></div>
+<div class="absolute top-1/2 -right-24 w-80 h-80 bg-primary/40 ambient-blur rounded-full pointer-events-none"></div>
+<div class="relative flex min-h-screen w-full flex-col">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between border-b border-white/10 px-6 py-4 lg:px-20 bg-background-dark/50 backdrop-blur-md sticky top-0 z-50">
+<div class="flex items-center gap-12">
+<div class="flex items-center gap-3 text-primary">
+<div class="size-8 flex items-center justify-center bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary text-2xl">diamond</span>
+</div>
+<h2 class="text-white text-xl font-black leading-tight tracking-tighter">BYTEZAAR</h2>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-slate-400 hover:text-primary text-sm font-semibold transition-colors uppercase tracking-widest" href="#">Shop</a>
+<a class="text-slate-100 text-sm font-semibold transition-colors uppercase tracking-widest" href="#">Featured</a>
+<a class="text-slate-400 hover:text-primary text-sm font-semibold transition-colors uppercase tracking-widest" href="#">New Arrivals</a>
+<a class="text-slate-400 hover:text-primary text-sm font-semibold transition-colors uppercase tracking-widest" href="#">Support</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden lg:flex items-center bg-white/5 border border-white/10 rounded-xl px-4 py-2 w-64">
+<span class="material-symbols-outlined text-slate-400 text-xl mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full placeholder:text-slate-500 text-white" placeholder="Search tech..." type="text"/>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center justify-center rounded-xl size-10 bg-white/5 border border-white/10 text-white hover:bg-primary transition-all">
+<span class="material-symbols-outlined text-xl">shopping_cart</span>
+</button>
+<button class="flex items-center justify-center rounded-xl size-10 bg-white/5 border border-white/10 text-white hover:bg-primary transition-all">
+<span class="material-symbols-outlined text-xl">person</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 max-w-7xl mx-auto w-full px-6 py-16 lg:px-12">
+<!-- Section Header -->
+<div class="text-center mb-16">
+<p class="text-primary text-xs font-bold tracking-[0.3em] uppercase mb-4">Our Premium Selection</p>
+<h1 class="text-white text-4xl md:text-6xl font-black tracking-tight mb-4">Featured Products</h1>
+<div class="h-1 w-20 bg-primary mx-auto rounded-full"></div>
+</div>
+<!-- Product Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+<!-- Product 1: Headphones -->
+<div class="liquid-glass rounded-2xl p-4 flex flex-col group transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(37,140,244,0.15)] relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="aspect-square rounded-xl bg-slate-900 mb-6 overflow-hidden relative border border-white/5">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Model X Pro premium wireless headphones in matte black" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcMDCFFjHv0ctFGsb1hJv4tUG6DRNWDwLvpTAleArFjLPOE0fUvyehdH2UckYDvIeRlCA68KzuHO7KkyIwMEI28W_dUQ4e5pST9jMX2Lxat4SqCueghAltCH2V5hhu10cTuQ-N9orX91H4gf0Dq-lxHU3849xxu4Qpir7sxg4keFfvdPrueNvebcsmeh1vxIJ_MKSAZAS19P7sE4UF_HMjX_iwsX8IXLk6sZok3nqw898KhRfilCmfWFAokxugERjHqZK8BWef63jW"/>
+<div class="absolute top-3 left-3">
+<span class="bg-primary/20 backdrop-blur-md border border-primary/30 text-primary text-[10px] font-bold px-2 py-1 rounded-md tracking-widest uppercase">Audio</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="text-white text-lg font-bold leading-tight group-hover:text-primary transition-colors">Model X Pro Headphones</h3>
+<div class="flex justify-between items-end mt-2">
+<p class="text-primary text-xl font-black">$299</p>
+<button class="size-10 rounded-full bg-white/10 hover:bg-primary flex items-center justify-center transition-all border border-white/10">
+<span class="material-symbols-outlined text-white text-xl">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product 2: Keyboard (Active Hover State) -->
+<div class="liquid-glass rounded-2xl p-4 flex flex-col group transition-all duration-500 scale-[1.02] shadow-[0_0_40px_rgba(37,140,244,0.25)] border-primary/30 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-100"></div>
+<div class="aspect-square rounded-xl bg-slate-900 mb-6 overflow-hidden relative border border-white/10">
+<img class="w-full h-full object-cover scale-110" data-alt="Cyber mechanical keyboard with neon RGB lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsFcd9NDTP6-aQAgWueKws_7pOEpdY7SiQklBvZQEuTwIF9gK5aJivDR3WLSQkx34hsD3ask2ycgIWz0Oe-XtWzw9DWcAry8E-Kr42vknAQs7fpNb7OwP_jNew490oSzopnu__41KD0NfUEuHkysDkVLb1UJAKC4OfO-Cb3j7Ci3SU-aGRX3xYrLt2LoSyCJhn_-t0pmYPo9vOeAF14_Tt1smB8Ce_iPS7DBs6FuGo99IyPKYwT_7YvdgnGb8B0lcaDGNRfunsQf_S"/>
+<div class="absolute top-3 left-3">
+<span class="bg-primary/20 backdrop-blur-md border border-primary/30 text-primary text-[10px] font-bold px-2 py-1 rounded-md tracking-widest uppercase">Gaming</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="text-primary text-lg font-bold leading-tight">Cyber Mechanical Keyboard</h3>
+<div class="flex justify-between items-end mt-2">
+<p class="text-primary text-xl font-black">$299</p>
+<button class="size-10 rounded-full bg-primary flex items-center justify-center transition-all shadow-[0_0_15px_rgba(37,140,244,0.4)]">
+<span class="material-symbols-outlined text-white text-xl">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product 3: Mouse -->
+<div class="liquid-glass rounded-2xl p-4 flex flex-col group transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(37,140,244,0.15)] relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="aspect-square rounded-xl bg-slate-900 mb-6 overflow-hidden relative border border-white/5">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Precision G-Mouse high performance gaming mouse" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDM1oTUzsLAOUTWFL8JtAF9J3GPqBCodk713hWhsimmD1kQ1gScg-zyjNNnDT6F69z-l3D8h5Z573nC4YiLjuMv2i5tNL1nmujTwTFaLwoOizfMXML8PaOt1nKXM0qYggOA1i7BSA80FOsITmAMr-UcfJC7El-ToeJYB79pMmC99-6-p_ez2uq_sP23r0kTxez6mHWwf0re5mjoDdyitmZWfeFNy170h2qYV6L9iPFgIgJbxZru4ppfTWHv343gXo2U_AMLcYtgUFMm"/>
+<div class="absolute top-3 left-3">
+<span class="bg-primary/20 backdrop-blur-md border border-primary/30 text-primary text-[10px] font-bold px-2 py-1 rounded-md tracking-widest uppercase">Gaming</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="text-white text-lg font-bold leading-tight group-hover:text-primary transition-colors">Precision G-Mouse</h3>
+<div class="flex justify-between items-end mt-2">
+<p class="text-primary text-xl font-black">$299</p>
+<button class="size-10 rounded-full bg-white/10 hover:bg-primary flex items-center justify-center transition-all border border-white/10">
+<span class="material-symbols-outlined text-white text-xl">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product 4: Projector -->
+<div class="liquid-glass rounded-2xl p-4 flex flex-col group transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(37,140,244,0.15)] relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="aspect-square rounded-xl bg-slate-900 mb-6 overflow-hidden relative border border-white/5">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Nebula 4K portable high tech projector" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoLVfJh---t3AoNn9qKRCw8epSMF639lXmD4k20juYWYNN_r40EuMibQOoaS38dvqSixQdVIFYlGzdJ2-RiA-ehvJ0W_cnu5OKpEdB8jNXTLjOKzGslEYPY2akiQPWdRCSUMarHI0bRPal3GkMKFsoy3XfU7bIeNodGulzjuukOjlBQvOERuvYFmcHP84Vbl9gSGPhpeJ4wDhnud8Ctn83n8uduq6bmNrVbp5zyhwuH91BUTAQshZL9c9cEHbRkePkPxIHKKdDg6D4"/>
+<div class="absolute top-3 left-3">
+<span class="bg-primary/20 backdrop-blur-md border border-primary/30 text-primary text-[10px] font-bold px-2 py-1 rounded-md tracking-widest uppercase">Home Tech</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="text-white text-lg font-bold leading-tight group-hover:text-primary transition-colors">Nebula 4K Projector</h3>
+<div class="flex justify-between items-end mt-2">
+<p class="text-primary text-xl font-black">$299</p>
+<button class="size-10 rounded-full bg-white/10 hover:bg-primary flex items-center justify-center transition-all border border-white/10">
+<span class="material-symbols-outlined text-white text-xl">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- CTA Section -->
+<div class="mt-24 liquid-glass rounded-3xl p-12 text-center relative overflow-hidden">
+<div class="absolute inset-0 radial-glow opacity-50"></div>
+<div class="relative z-10">
+<h2 class="text-white text-3xl md:text-5xl font-black mb-6 tracking-tight">Explore the Future of Tech</h2>
+<p class="text-slate-400 max-w-2xl mx-auto mb-10 text-lg">Our curated collection features only the highest-grade materials and cutting-edge engineering. Experience Bytezaar's premium vision.</p>
+<button class="bg-primary hover:bg-primary/90 text-white font-bold py-4 px-10 rounded-xl transition-all shadow-[0_10px_30px_rgba(37,140,244,0.3)] inline-flex items-center gap-2">
+                        View Full Catalog
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="border-t border-white/10 px-6 py-12 lg:px-20 bg-background-dark">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex items-center gap-3 text-white/50">
+<span class="material-symbols-outlined">diamond</span>
+<span class="text-sm font-bold tracking-tighter">BYTEZAAR © 2024</span>
+</div>
+<div class="flex gap-8">
+<a class="text-slate-500 hover:text-white text-sm" href="#">Privacy Policy</a>
+<a class="text-slate-500 hover:text-white text-sm" href="#">Terms of Service</a>
+<a class="text-slate-500 hover:text-white text-sm" href="#">Shipping Info</a>
+</div>
+<div class="flex gap-4">
+<div class="size-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-sm">language</span>
+</div>
+<div class="size-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-sm">share</span>
+</div>
+</div>
+</div>
+</footer>
+</div>
+</body></html>
