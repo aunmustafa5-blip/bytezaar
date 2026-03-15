@@ -85,6 +85,16 @@ export function StoreProvider({ children }) {
         setUser(null);
     };
 
+    // ==== UTILS ====
+    const formatPrice = (price) => {
+        return new Intl.NumberFormat('en-PK', {
+            style: 'currency',
+            currency: 'PKR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        }).format(price);
+    };
+
     return (
         <StoreContext.Provider value={{
             // State
@@ -100,7 +110,8 @@ export function StoreProvider({ children }) {
             updateQuantity,
             clearCart,
             login,
-            logout
+            logout,
+            formatPrice
         }}>
             {children}
         </StoreContext.Provider>

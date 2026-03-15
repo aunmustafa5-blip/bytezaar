@@ -12,13 +12,23 @@ const ITEMS_PER_PAGE = 6;
 export default function ShopPage() {
     const [search, setSearch] = useState('');
     const [selectedCategories, setSelectedCategories] = useState([]);
-    const [maxPrice, setMaxPrice] = useState(500);
+    const [maxPrice, setMaxPrice] = useState(1000000); // Default high for PKR
     const [sortBy, setSortBy] = useState('default');
     const [currentPage, setCurrentPage] = useState(1);
     const [sidebarOpen, setSidebarOpen] = useState(false);
     
     // Add cart capability
-    const { addToCart } = useStore();
+    const { addToCart, formatPrice } = useStore();
+
+    const maxProductPrice = useMemo(() => {
+        if (products.length === 0) return 1000000;
+        return Math.max(...products.map(p => p.price));
+    }, []);
+
+    // Set initial maxPrice once products are available if it's still at default
+    useState(() => {
+        setMaxPrice(maxProductPrice);
+    });
 
     const handleMouseMove = (e) => {
         const card = e.currentTarget;
@@ -155,13 +165,14 @@ export default function ShopPage() {
                                     type="range"
                                     className={styles.rangeSlider}
                                     min="0"
-                                    max="500"
+                                    max={maxProductPrice}
+                                    step="100"
                                     value={maxPrice}
                                     onChange={e => { setMaxPrice(Number(e.target.value)); setCurrentPage(1); }}
                                 />
                                 <div className={styles.priceLabels}>
-                                    <span>$0</span>
-                                    <span>${maxPrice}</span>
+                                    <span>Rs. 0</span>
+                                    <span>{formatPrice(maxPrice)}</span>
                                 </div>
                             </div>
                         </div>
@@ -253,10 +264,10 @@ export default function ShopPage() {
                                                     {product.description}
                                                 </p>
                                                 <p className="product-price">
-                                                    ${product.price.toFixed(2)}
+                                                    {formatPrice(product.price)}
                                                     {product.originalPrice && (
                                                         <span style={{ fontSize: '14px', color: '#808080', textDecoration: 'line-through', marginLeft: '8px' }}>
-                                                            ${product.originalPrice.toFixed(2)}
+                                                            {formatPrice(product.originalPrice)}
                                                         </span>
                                                     )}
                                                 </p>

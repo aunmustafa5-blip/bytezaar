@@ -56,7 +56,14 @@ export default function AdminPage() {
     // Form states
     const [newProduct, setNewProduct] = useState({ name: '', category: 'Headphones', price: '', stock: '', description: '', image: '' });
     const [newPromo, setNewPromo] = useState({ code: '', type: 'percentage', value: '', status: 'Active' });
-    const [settings, setSettings] = useState({ storeName: 'Bytezaar', storeEmail: 'admin@bytezaar.com', currency: 'USD ($)' });
+    const [settings, setSettings] = useState({ 
+        storeName: 'Bytezaar', 
+        storeEmail: 'admin@bytezaar.com', 
+        currency: 'PKR',
+        instagram: 'https://www.instagram.com/byt3zaar/',
+        youtube: 'https://www.youtube.com/@starrydustproductions',
+        whatsapp: '+92 326 4642243'
+    });
 
     // Toast state
     const [toast, setToast] = useState({ message: '', type: 'success' });
@@ -237,7 +244,7 @@ export default function AdminPage() {
                             <p style={{ color: '#808080', marginTop: '4px' }}>Welcome back, Admin</p>
                         </div>
                         <div style={s.summaryGrid}>
-                            <div style={s.summaryCard}><p style={s.cardLabel}>Total Revenue</p><h3 style={s.cardValue}>$48,520</h3><p style={s.cardChange(true)}>↑ 12.5% from last month</p></div>
+                            <div style={s.summaryCard}><p style={s.cardLabel}>Total Revenue</p><h3 style={s.cardValue}>Rs. 48,520</h3><p style={s.cardChange(true)}>↑ 12.5% from last month</p></div>
                             <div style={s.summaryCard}><p style={s.cardLabel}>Total Orders</p><h3 style={s.cardValue}>{orders.length.toLocaleString()}</h3><p style={s.cardChange(true)}>↑ 8.2% from last month</p></div>
                             <div style={s.summaryCard}><p style={s.cardLabel}>Total Users</p><h3 style={s.cardValue}>3,891</h3><p style={s.cardChange(true)}>↑ 15.1% from last month</p></div>
                             <div style={s.summaryCard}><p style={s.cardLabel}>Products</p><h3 style={s.cardValue}>{productList.length}</h3><p style={s.cardChange(false)}>↓ 2 out of stock</p></div>
@@ -251,7 +258,7 @@ export default function AdminPage() {
                                 <thead><tr><th style={s.th}>Order ID</th><th style={s.th}>Customer</th><th style={s.th}>Date</th><th style={s.th}>Status</th><th style={s.th}>Total</th></tr></thead>
                                 <tbody>
                                     {orders.slice(0, 5).map(order => (
-                                        <tr key={order.id}><td style={s.td}><strong>{order.id}</strong></td><td style={s.td}>{order.customer}</td><td style={{ ...s.td, color: '#808080' }}>{order.date}</td><td style={s.td}><span style={s.badge(order.status)}>{order.status}</span></td><td style={s.td}>${order.total.toFixed(2)}</td></tr>
+                                        <tr key={order.id}><td style={s.td}><strong>{order.id}</strong></td><td style={s.td}>{order.customer}</td><td style={{ ...s.td, color: '#808080' }}>{order.date}</td><td style={s.td}><span style={s.badge(order.status)}>{order.status}</span></td><td style={s.td}>Rs. {order.total.toFixed(0)}</td></tr>
                                     ))}
                                 </tbody>
                             </table>
@@ -435,7 +442,20 @@ export default function AdminPage() {
                                 <label className="form-label">Currency</label>
                                 <input className="form-input" value={settings.currency} onChange={e => setSettings(s => ({ ...s, currency: e.target.value }))} />
                             </div>
-                            <button className="btn btn-primary" onClick={handleSaveSettings}>Save Settings</button>
+                            <h3 style={{ fontSize: '1rem', fontWeight: '600', marginTop: '2rem', marginBottom: '1.5rem' }}>Social Links</h3>
+                            <div className="form-group">
+                                <label className="form-label">Instagram URL</label>
+                                <input className="form-input" value={settings.instagram} onChange={e => setSettings(s => ({ ...s, instagram: e.target.value }))} />
+                            </div>
+                            <div className="form-group">
+                                <label className="form-label">YouTube URL</label>
+                                <input className="form-input" value={settings.youtube} onChange={e => setSettings(s => ({ ...s, youtube: e.target.value }))} />
+                            </div>
+                            <div className="form-group">
+                                <label className="form-label">WhatsApp Number</label>
+                                <input className="form-input" value={settings.whatsapp} onChange={e => setSettings(s => ({ ...s, whatsapp: e.target.value }))} />
+                            </div>
+                            <button className="btn btn-primary" onClick={handleSaveSettings} style={{ marginTop: '1rem' }}>Save Settings</button>
                         </div>
                     </>
                 )}

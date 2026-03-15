@@ -21,7 +21,7 @@ export default function ContactUs() {
                         </div>
 
                         <div className={styles.contactDetails}>
-                            <div className={styles.contactItem}>
+                            <a href="mailto:support@bytezaar.com" className={styles.contactItem}>
                                 <div className={styles.contactItemIcon}>
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg>
                                 </div>
@@ -29,34 +29,36 @@ export default function ContactUs() {
                                     <h4>Email</h4>
                                     <p>support@bytezaar.com</p>
                                 </div>
-                            </div>
-                            <div className={styles.contactItem}>
+                            </a>
+                            <a href="tel:+923264642243" className={styles.contactItem}>
                                 <div className={styles.contactItemIcon}>
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" /></svg>
                                 </div>
                                 <div className={styles.contactItemText}>
                                     <h4>Phone</h4>
-                                    <p>+1 (555) 123-4567</p>
+                                    <p>+92 326 4642243</p>
                                 </div>
-                            </div>
-                            <div className={styles.contactItem}>
+                            </a>
+                            <a href="https://maps.google.com/?q=Lahore,Pakistan" target="_blank" rel="noopener noreferrer" className={styles.contactItem}>
                                 <div className={styles.contactItemIcon}>
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" /></svg>
                                 </div>
                                 <div className={styles.contactItemText}>
                                     <h4>Location</h4>
-                                    <p>San Francisco, CA</p>
+                                    <p>Lahore, Pakistan</p>
                                 </div>
-                            </div>
+                            </a>
                         </div>
 
                         <div className={styles.contactSocials}>
-                            <a href="#" className={styles.socialBtn} aria-label="Twitter">𝕏</a>
-                            <a href="#" className={styles.socialBtn} aria-label="Instagram">
+                            <a href="https://www.instagram.com/byt3zaar/" target="_blank" rel="noopener noreferrer" className={styles.socialBtn} aria-label="Instagram">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" /><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" /></svg>
                             </a>
-                            <a href="#" className={styles.socialBtn} aria-label="YouTube">
+                            <a href="https://www.youtube.com/@starrydustproductions" target="_blank" rel="noopener noreferrer" className={styles.socialBtn} aria-label="YouTube">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2 29 29 0 00.46-5.25 29 29 0 00-.46-5.43z" /><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" /></svg>
+                            </a>
+                            <a href="https://wa.me/923264642243" target="_blank" rel="noopener noreferrer" className={styles.socialBtn} aria-label="WhatsApp">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 11-7.6-14.8 8.38 8.38 0 013.8.9L21 3z" /></svg>
                             </a>
                         </div>
                     </div>

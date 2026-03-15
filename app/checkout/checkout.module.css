@@ -130,6 +130,66 @@
     color: #fff;
 }
 
+/* Payment Options Selector */
+.methodSelector {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.methodOption {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.methodOption:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.methodOption.active {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: #fff;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+}
+
+.methodIcon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #808080;
+    transition: all 0.2s ease;
+}
+
+.active .methodIcon {
+    background: #fff;
+    color: #000;
+}
+
+.methodName {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.methodDesc {
+    font-size: 0.75rem;
+    color: #666;
+}
+
 /* Payment Box */
 .paymentBox {
     background: rgba(255, 255, 255, 0.03);
@@ -137,6 +197,49 @@
     border-radius: 20px;
     padding: 2rem;
     margin-bottom: 1.5rem;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.codBox {
+    background: rgba(74, 222, 128, 0.03);
+    border: 1px solid rgba(74, 222, 128, 0.15);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.codIcon {
+    color: #4ade80;
+    margin-bottom: 1rem;
+}
+
+.codBox h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.codBox p {
+    font-size: 0.85rem;
+    color: #808080;
+    line-height: 1.5;
+}
+
+.errorText {
+    color: #ff6b6b;
+    font-size: 0.75rem;
+    margin-top: 4px;
+    display: block;
+}
+
+.invalidInput {
+    border-color: rgba(255, 107, 107, 0.5) !important;
 }
 
 .cardHeader {

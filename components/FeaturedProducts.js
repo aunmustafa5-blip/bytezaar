@@ -8,7 +8,7 @@ import styles from './FeaturedProducts.module.css';
 
 export default function FeaturedProducts() {
     const featured = products.filter(p => p.badge).slice(0, 3);
-    const { addToCart } = useStore();
+    const { addToCart, formatPrice } = useStore();
 
     const getBadgeClass = (badge) => {
         const b = badge.toLowerCase();
@@ -84,10 +84,10 @@ export default function FeaturedProducts() {
                                     </div>
 
                                     <div className={styles.priceRow}>
-                                        <span className={styles.currentPrice}>${product.price.toFixed(2)}</span>
+                                        <span className={styles.currentPrice}>{formatPrice(product.price)}</span>
                                         {product.originalPrice && (
                                             <>
-                                                <span className={styles.originalPrice}>${product.originalPrice.toFixed(2)}</span>
+                                                <span className={styles.originalPrice}>{formatPrice(product.originalPrice)}</span>
                                                 <span className={styles.savingsPill}>-{savings}%</span>
                                             </>
                                         )}

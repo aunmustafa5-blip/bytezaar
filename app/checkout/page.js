@@ -11,6 +11,26 @@ export default function CheckoutPage() {
     const router = useRouter();
     const [step, setStep] = useState(1); // 1: Info, 2: Payment, 3: Success
     const [isProcessing, setIsProcessing] = useState(false);
+    const [paymentMethod, setPaymentMethod] = useState('card'); // 'card' or 'cod'
+    const [cardData, setCardData] = useState({ number: '', expiry: '', cvc: '' });
+    const [cardError, setCardError] = useState('');
+
+    const validateCard = (number) => {
+        const cleanNumber = number.replace(/\s+/g, '');
+        if (!/^\d{16}$/.test(cleanNumber)) return false;
+        
+        // Luhn Algorithm
+        let sum = 0;
+        for (let i = 0; i < cleanNumber.length; i++) {
+            let digit = parseInt(cleanNumber[i]);
+            if ((cleanNumber.length - i) % 2 === 0) {
+                digit *= 2;
+                if (digit > 9) digit -= 9;
+            }
+            sum += digit;
+        }
+        return sum % 10 === 0;
+    };
 
     if (!isLoaded) return (
         <div className={styles.checkoutPage}>
@@ -43,6 +63,15 @@ export default function CheckoutPage() {
 
     const handleComplete = (e) => {
         e.preventDefault();
+        
+        if (paymentMethod === 'card') {
+            if (!validateCard(cardData.number)) {
+                setCardError('Please enter a valid 16-digit card number.');
+                return;
+            }
+            setCardError('');
+        }
+
         setIsProcessing(true);
         // Mock processing delay
         setTimeout(() => {
@@ -115,42 +144,96 @@ export default function CheckoutPage() {
 
                 {step === 2 && (
                     <div className={styles.checkoutLayout}>
-                        <form className={styles.mainContent} onSubmit={handleComplete}>
-                            <h1 className={styles.title}>Payment Details</h1>
-                            <div className={styles.paymentBox}>
-                                <div className={styles.cardHeader}>
-                                    <CreditCard size={20} />
-                                    <span>Credit or Debit Card</span>
+                        <div className={styles.mainContent}>
+                            <h1 className={styles.title}>Payment Method</h1>
+                            
+                            <div className={styles.methodSelector}>
+                                <div 
+                                    className={`${styles.methodOption} ${paymentMethod === 'card' ? styles.active : ''}`}
+                                    onClick={() => setPaymentMethod('card')}
+                                >
+                                    <div className={styles.methodIcon}><CreditCard size={20} /></div>
+                                    <span className={styles.methodName}>Credit Card</span>
+                                    <span className={styles.methodDesc}>Secure payment via Stripe</span>
                                 </div>
-                                <div className={styles.formGrid}>
-                                    <div className="form-group" style={{ gridColumn: 'span 2' }}>
-                                        <label className="form-label">Card Number</label>
-                                        <input type="text" className="form-input" placeholder="•••• •••• •••• ••••" required />
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="form-label">Expiry Date</label>
-                                        <input type="text" className="form-input" placeholder="MM/YY" required />
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="form-label">CVC</label>
-                                        <input type="text" className="form-input" placeholder="•••" required />
-                                    </div>
+                                <div 
+                                    className={`${styles.methodOption} ${paymentMethod === 'cod' ? styles.active : ''}`}
+                                    onClick={() => setPaymentMethod('cod')}
+                                >
+                                    <div className={styles.methodIcon}><Truck size={20} /></div>
+                                    <span className={styles.methodName}>Cash on Delivery</span>
+                                    <span className={styles.methodDesc}>Pay when you receive</span>
                                 </div>
                             </div>
-                            <div className={styles.securityNote}>
-                                <ShieldCheck size={14} />
-                                <span>Your transaction is secured by AES-256 encryption</span>
-                            </div>
-                            <div className={styles.formActions}>
-                                <button type="button" onClick={handleBack} className={styles.backLink}>
-                                    <ArrowLeft size={16} /> Back to Shipping
-                                </button>
-                                <button type="submit" className="btn btn-primary" disabled={isProcessing}>
-                                    {isProcessing ? 'Processing...' : `Complete Purchase — $${cartTotal.toFixed(2)}`}
-                                </button>
-                            </div>
-                        </form>
-                        <OrderSummary cart={cart} cartTotal={cartTotal} />
+
+                            <form onSubmit={handleComplete}>
+                                {paymentMethod === 'card' ? (
+                                    <div className={styles.paymentBox}>
+                                        <div className={styles.cardHeader}>
+                                            <CreditCard size={20} />
+                                            <span>Enter Card Information</span>
+                                        </div>
+                                        <div className={styles.formGrid}>
+                                            <div className="form-group" style={{ gridColumn: 'span 2' }}>
+                                                <label className="form-label">Card Number</label>
+                                                <input 
+                                                    type="text" 
+                                                    className={`form-input ${cardError ? styles.invalidInput : ''}`}
+                                                    placeholder="1234 5678 1234 5678" 
+                                                    value={cardData.number}
+                                                    onChange={e => setCardData({...cardData, number: e.target.value})}
+                                                    required 
+                                                />
+                                                {cardError && <span className={styles.errorText}>{cardError}</span>}
+                                            </div>
+                                            <div className="form-group">
+                                                <label className="form-label">Expiry Date</label>
+                                                <input 
+                                                    type="text" 
+                                                    className="form-input" 
+                                                    placeholder="MM/YY" 
+                                                    value={cardData.expiry}
+                                                    onChange={e => setCardData({...cardData, expiry: e.target.value})}
+                                                    required 
+                                                />
+                                            </div>
+                                            <div className="form-group">
+                                                <label className="form-label">CVC</label>
+                                                <input 
+                                                    type="text" 
+                                                    className="form-input" 
+                                                    placeholder="123" 
+                                                    value={cardData.cvc}
+                                                    onChange={e => setCardData({...cardData, cvc: e.target.value})}
+                                                    required 
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className={styles.codBox}>
+                                        <div className={styles.codIcon}><Truck size={40} /></div>
+                                        <h3>Cash on Delivery</h3>
+                                        <p>You will pay for your order in cash at the time of delivery. Please ensure you have the exact amount ready.</p>
+                                    </div>
+                                )}
+
+                                <div className={styles.securityNote}>
+                                    <ShieldCheck size={14} />
+                                    <span>{paymentMethod === 'card' ? 'Secure encrypted transaction' : 'Verified delivery service'}</span>
+                                </div>
+
+                                <div className={styles.formActions}>
+                                    <button type="button" onClick={handleBack} className={styles.backLink}>
+                                        <ArrowLeft size={16} /> Back to Shipping
+                                    </button>
+                                    <button type="submit" className="btn btn-primary" disabled={isProcessing}>
+                                        {isProcessing ? 'Processing...' : `Place Order — $${cartTotal.toFixed(2)}`}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <OrderSummary cart={cart} cartTotal={cartTotal} paymentMethod={paymentMethod} />
                     </div>
                 )}
 
@@ -164,6 +247,11 @@ export default function CheckoutPage() {
                         <div className={styles.orderNumber}>
                             Order #BZR-{Math.floor(Math.random() * 90000) + 10000}
                         </div>
+                        {paymentMethod === 'cod' && (
+                            <div style={{ marginBottom: '2rem', color: '#808080', fontSize: '0.9rem' }}>
+                                Payment Method: <strong>Cash on Delivery</strong>
+                            </div>
+                        )}
                         <div className={styles.successActions}>
                             <Link href="/shop" className="btn btn-primary">
                                 Keep Shopping
@@ -179,7 +267,7 @@ export default function CheckoutPage() {
     );
 }
 
-function OrderSummary({ cart, cartTotal }) {
+function OrderSummary({ cart, cartTotal, paymentMethod }) {
     return (
         <aside className={styles.sidebar}>
             <div className={styles.summaryBox}>
@@ -200,9 +288,14 @@ function OrderSummary({ cart, cartTotal }) {
                     <span>Total Amount</span>
                     <span>${cartTotal.toFixed(2)}</span>
                 </div>
+                {paymentMethod && (
+                    <div style={{ fontSize: '0.75rem', color: '#808080', marginBottom: '1rem', textAlign: 'right' }}>
+                        Method: {paymentMethod === 'card' ? 'Credit Card' : 'Cash on Delivery'}
+                    </div>
+                )}
                 <div className={styles.guarantees}>
-                    <div className={styles.guarantee}><ShieldCheck size={16} /> Secured Payment</div>
-                    <div className={styles.guarantee}><Truck size={16} /> Fast Delivery</div>
+                    <div className={styles.guarantee}><ShieldCheck size={16} /> 100% Secure</div>
+                    {paymentMethod === 'cod' && <div className={styles.guarantee}><Truck size={16} /> Pay on delivery</div>}
                 </div>
             </div>
         </aside>
