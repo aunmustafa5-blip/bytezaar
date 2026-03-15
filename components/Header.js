@@ -32,7 +32,7 @@ export default function Header() {
                 <div className={styles.headerInner}>
                     <Link href="/" className={styles.logo}>
                         <Image
-                            src="/images/bytezaar-logo.png"
+                            src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/images/bytezaar-logo.png`}
                             alt="Bytezaar Logo"
                             width={150}
                             height={50}

@@ -10,11 +10,11 @@ export default function AboutUs() {
                 <div className={styles.aboutGrid}>
                     <div className={styles.aboutImage}>
                         <Image
-                            src="/images/Whisk_f10ae1b73ba921a85f34ef61cf5405dddr.png"
-                            alt="Bytezaar tech lifestyle"
-                            width={600}
-                            height={450}
-                            style={{ objectFit: 'cover' }}
+                            src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/images/Whisk_f10ae1b73ba921a85f34ef61cf5405dddr.png`}
+                            alt="About Bytezaar"
+                            width={500}
+                            height={500}
+                            style={{ objectFit: 'contain' }}
                         />
                         <div className={styles.aboutImageOverlay} />
                     </div>

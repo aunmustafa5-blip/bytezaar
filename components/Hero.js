@@ -6,15 +6,15 @@ import styles from './Hero.module.css';
 export default function Hero() {
     return (
         <section className={styles.hero}>
-            <div className={`${styles.heroBg} parallax-bg`} />
+            <div className={styles.heroBg} />
             <div className={styles.heroContent}>
-                <div className={`${styles.heroText} parallax-hero-layer`}>
+                <div className={styles.heroText}>
                     <div className={styles.heroBadge}>
                         <span /> New Collection 2026
                     </div>
                     <h1 className={styles.heroTitle}>
-                        Premium Tech<br />
-                        Accessories <em>for<br />
+                        Premium Tech <br />
+                        Accessories <em>for <br />
                             Everyday</em> Performance
                     </h1>
                     <p className={styles.heroSubtitle}>
@@ -43,9 +43,9 @@ export default function Hero() {
                         </div>
                     </div>
                 </div>
-                <div className={`${styles.heroVisual} parallax-fast`}>
+                <div className={styles.heroVisual}>
                     <Image
-                        src="/images/Whisk_85f4bb9cb254f6c81dd4df4c765b910adr.png"
+                        src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/images/Whisk_85f4bb9cb254f6c81dd4df4c765b910adr.png`}
                         alt="Premium Headphones"
                         width={500}
                         height={500}
@@ -54,7 +54,7 @@ export default function Hero() {
                     />
                     <div className={`${styles.heroFloating} ${styles.floating1}`}>
                         <Image
-                            src="/images/Whisk_a94fbd3fe8ebb5cac69422b57cdadc1bdr.png"
+                            src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/images/Whisk_a94fbd3fe8ebb5cac69422b57cdadc1bdr.png`}
                             alt="Gaming Mouse"
                             width={140}
                             height={140}
@@ -62,7 +62,7 @@ export default function Hero() {
                     </div>
                     <div className={`${styles.heroFloating} ${styles.floating2}`}>
                         <Image
-                            src="/images/Whisk_f10ae1b73ba921a85f34ef61cf5405dddr.png"
+                            src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/images/Whisk_f10ae1b73ba921a85f34ef61cf5405dddr.png`}
                             alt="Mechanical Keyboard"
                             width={120}
                             height={120}

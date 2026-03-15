@@ -30,7 +30,8 @@ export default function KeyboardCanvas() {
         for (let i = FRAME_START; i <= FRAME_END; i++) {
             const img = new Image();
             const num = String(i).padStart(3, '0');
-            img.src = `/frames/ezgif-frame-${num}.jpg`;
+            const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+            img.src = `${basePath}/frames/ezgif-frame-${num}.jpg`;
             img.onload = () => {
                 loadedCount++;
                 if (loadedCount === TOTAL_FRAMES) {
