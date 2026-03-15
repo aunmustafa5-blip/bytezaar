@@ -4,6 +4,12 @@ import Link from 'next/link';
 import { Star, ChevronLeft, Minus, Plus } from 'lucide-react';
 import styles from './Product.module.css';
 
+export async function generateStaticParams() {
+    return products.map((product) => ({
+        id: product.id.toString(),
+    }));
+}
+
 export default async function ProductPage({ params }) {
     const { id } = await params;
     const product = products.find(p => p.id === parseInt(id));
