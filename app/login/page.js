@@ -4,12 +4,21 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import styles from './login.module.css';
 
+import { useStore } from '@/context/StoreContext';
+
 export default function LoginPage() {
     const [isAdmin, setIsAdmin] = useState(false);
+    const [email, setEmail] = useState('');
     const router = useRouter();
+    const { login } = useStore();
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        
+        // Mock login behavior
+        const name = isAdmin ? 'Admin' : email.split('@')[0];
+        login(email, name, isAdmin ? 'admin' : 'customer');
+
         if (isAdmin) {
             router.push('/admin');
         } else {
@@ -43,7 +52,14 @@ export default function LoginPage() {
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label className="form-label">Email</label>
-                        <input type="email" className="form-input" placeholder="you@example.com" required />
+                        <input 
+                            type="email" 
+                            className="form-input" 
+                            placeholder="you@example.com" 
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required 
+                        />
                     </div>
                     <div className="form-group">
                         <label className="form-label">Password</label>

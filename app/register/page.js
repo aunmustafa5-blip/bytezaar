@@ -4,11 +4,22 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import styles from '../login/login.module.css';
 
+import { useStore } from '@/context/StoreContext';
+
 export default function RegisterPage() {
     const router = useRouter();
+    const { login } = useStore();
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        
+        // Mock register behavior
+        const name = `${firstName} ${lastName}`;
+        login(email, name, 'customer');
+
         router.push('/dashboard');
     };
 
@@ -24,16 +35,37 @@ export default function RegisterPage() {
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                         <div className="form-group">
                             <label className="form-label">First Name</label>
-                            <input type="text" className="form-input" placeholder="John" required />
+                            <input 
+                                type="text" 
+                                className="form-input" 
+                                placeholder="John" 
+                                value={firstName}
+                                onChange={(e) => setFirstName(e.target.value)}
+                                required 
+                            />
                         </div>
                         <div className="form-group">
                             <label className="form-label">Last Name</label>
-                            <input type="text" className="form-input" placeholder="Doe" required />
+                            <input 
+                                type="text" 
+                                className="form-input" 
+                                placeholder="Doe" 
+                                value={lastName}
+                                onChange={(e) => setLastName(e.target.value)}
+                                required 
+                            />
                         </div>
                     </div>
                     <div className="form-group">
                         <label className="form-label">Email</label>
-                        <input type="email" className="form-input" placeholder="you@example.com" required />
+                        <input 
+                            type="email" 
+                            className="form-input" 
+                            placeholder="you@example.com" 
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required 
+                        />
                     </div>
                     <div className="form-group">
                         <label className="form-label">Password</label>

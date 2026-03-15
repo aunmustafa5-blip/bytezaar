@@ -35,17 +35,21 @@ export const metadata = {
     keywords: 'tech accessories, headphones, keyboards, mouse, projectors, gaming, premium',
 };
 
+import { StoreProvider } from '@/context/StoreContext';
+
 export default function RootLayout({ children }) {
     return (
         <html lang="en" className={`${displayFont.variable} ${bodyFont.variable} ${monoFont.variable}`}>
             <body>
-                <LoadingScreen />
-                <BackgroundManager />
-                <Header />
-                <main style={{ paddingTop: 0 }}>
-                    {children}
-                </main>
-                <Footer />
+                <StoreProvider>
+                    <LoadingScreen />
+                    <BackgroundManager />
+                    <Header />
+                    <main style={{ paddingTop: 0 }}>
+                        {children}
+                    </main>
+                    <Footer />
+                </StoreProvider>
             </body>
         </html>
     );

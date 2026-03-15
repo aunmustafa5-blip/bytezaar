@@ -6,10 +6,13 @@ import { usePathname } from 'next/navigation';
 import { navLinks } from '@/lib/data';
 import styles from './Header.module.css';
 
+import { useStore } from '@/context/StoreContext';
+
 export default function Header() {
     const [scrolled, setScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
     const pathname = usePathname();
+    const { cartCount, user, isLoaded } = useStore();
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -54,18 +57,24 @@ export default function Header() {
                     </nav>
 
                     <div className={styles.headerActions}>
-                        <Link href="/login" className={styles.loginBtn}>
-                            Login
-                        </Link>
+                        {isLoaded && user ? (
+                            <Link href={user.role === 'admin' ? '/admin' : '/dashboard'} className={styles.loginBtn}>
+                                {user.name}
+                            </Link>
+                        ) : (
+                            <Link href="/login" className={styles.loginBtn}>
+                                Login
+                            </Link>
+                        )}
 
-                        <button className={styles.iconBtn} aria-label="Cart">
+                        <Link href="/cart" className={styles.iconBtn} aria-label="Cart">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
                                 <line x1="3" y1="6" x2="21" y2="6" />
                                 <path d="M16 10a4 4 0 01-8 0" />
                             </svg>
-                            <span className={styles.cartBadge}>3</span>
-                        </button>
+                            {isLoaded && cartCount > 0 && <span className={styles.cartBadge}>{cartCount}</span>}
+                        </Link>
 
                         <Link href="/shop" className={styles.shopBtn}>
                             Shop Now

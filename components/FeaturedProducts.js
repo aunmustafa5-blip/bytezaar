@@ -3,16 +3,24 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { products } from '@/lib/data';
 import { Star, Heart } from 'lucide-react';
+import { useStore } from '@/context/StoreContext';
 import styles from './FeaturedProducts.module.css';
 
 export default function FeaturedProducts() {
     const featured = products.filter(p => p.badge).slice(0, 3);
+    const { addToCart } = useStore();
 
     const getBadgeClass = (badge) => {
         const b = badge.toLowerCase();
         if (b.includes('new')) return styles.badgeNew;
         if (b.includes('sale')) return styles.badgeSale;
         return styles.badgeBestSeller;
+    };
+
+    const handleAddToCart = (e, product) => {
+        e.preventDefault(); // prevent the absolute link from firing
+        addToCart(product, 1);
+        // We could add a micro-toast here if desired
     };
 
     return (
@@ -51,7 +59,7 @@ export default function FeaturedProducts() {
                                             </span>
                                         )}
                                     </div>
-                                    <button className={styles.wishlistBtn} aria-label="Add to wishlist">
+                                    <button className={styles.wishlistBtn} aria-label="Add to wishlist" onClick={(e) => e.preventDefault()}>
                                         <Heart size={16} />
                                     </button>
                                 </div>
@@ -90,7 +98,7 @@ export default function FeaturedProducts() {
                                         {product.description.split('.')[0]}.
                                     </p>
 
-                                    <button className={styles.ctaButton}>
+                                    <button className={styles.ctaButton} onClick={(e) => handleAddToCart(e, product)}>
                                         Add to Cart
                                     </button>
                                 </div>

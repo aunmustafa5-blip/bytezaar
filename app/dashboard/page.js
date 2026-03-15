@@ -1,6 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useStore } from '@/context/StoreContext';
 
 const tabs = ['Profile', 'Orders', 'Wishlist', 'Addresses', 'Password'];
 
@@ -35,14 +37,48 @@ function Toast({ message, type, onClose }) {
 }
 
 export default function DashboardPage() {
+    const { user, logout, isLoaded } = useStore();
+    const router = useRouter();
     const [activeTab, setActiveTab] = useState('Profile');
-    const [profile, setProfile] = useState({ firstName: 'John', lastName: 'Doe', email: 'john@example.com', phone: '+1 555 123 4567' });
+
+    // Auth Guard
+    useEffect(() => {
+        if (isLoaded && !user) {
+            router.push('/login');
+        }
+    }, [user, isLoaded, router]);
+
+    const [profile, setProfile] = useState({ 
+        firstName: user?.name?.split(' ')[0] || '', 
+        lastName: user?.name?.split(' ')[1] || '', 
+        email: user?.email || '', 
+        phone: '+1 555 123 4567' 
+    });
+
+    useEffect(() => {
+        if (user) {
+            setProfile(prev => ({
+                ...prev,
+                firstName: user.name.split(' ')[0],
+                lastName: user.name.split(' ')[1] || '',
+                email: user.email
+            }));
+        }
+    }, [user]);
+
     const [wishlist, setWishlist] = useState(initialWishlist);
     const [addresses, setAddresses] = useState(initialAddresses);
     const [passwords, setPasswords] = useState({ current: '', newPw: '', confirm: '' });
     const [showAddAddress, setShowAddAddress] = useState(false);
     const [newAddress, setNewAddress] = useState({ label: '', line1: '', line2: '' });
     const [toast, setToast] = useState({ message: '', type: 'success' });
+
+    if (!isLoaded || !user) return (
+        <div style={{ paddingTop: '120px', textAlign: 'center', color: '#808080' }}>
+            <p>Heading to secure dashboard...</p>
+        </div>
+    );
+
 
     const showToast = (message, type = 'success') => {
         setToast({ message, type });
@@ -116,7 +152,12 @@ export default function DashboardPage() {
                         {tabs.map(tab => (
                             <button key={tab} style={tabStyle(tab)} onClick={() => setActiveTab(tab)}>{tab}</button>
                         ))}
-                        <Link href="/login" style={{ ...tabStyle(''), marginTop: '8px', color: '#FF6B6B' }}>Sign Out</Link>
+                        <button 
+                            style={{ ...tabStyle(''), marginTop: '8px', color: '#FF6B6B', background: 'none', border: 'none' }} 
+                            onClick={logout}
+                        >
+                            Sign Out
+                        </button>
                     </div>
                 </aside>
 

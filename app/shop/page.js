@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Search, Star } from 'lucide-react';
 import { products, categories } from '@/lib/data';
+import { useStore } from '@/context/StoreContext';
 import styles from './shop.module.css';
 
 const ITEMS_PER_PAGE = 6;
@@ -15,6 +16,9 @@ export default function ShopPage() {
     const [sortBy, setSortBy] = useState('default');
     const [currentPage, setCurrentPage] = useState(1);
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    
+    // Add cart capability
+    const { addToCart } = useStore();
 
     const handleMouseMove = (e) => {
         const card = e.currentTarget;
@@ -52,6 +56,13 @@ export default function ShopPage() {
         setMaxPrice(500);
         setSortBy('default');
         setCurrentPage(1);
+    };
+
+    const handleAddToCart = (e, product) => {
+        e.preventDefault(); // Stop Link propagation if nested differently
+        addToCart(product, 1);
+        
+        // Visual feedback button states could go here, but context handles badge reliably
     };
 
     const filteredProducts = useMemo(() => {
@@ -249,7 +260,7 @@ export default function ShopPage() {
                                                         </span>
                                                     )}
                                                 </p>
-                                                <button className="btn btn-accent" style={{ width: '100%', marginTop: '8px' }}>
+                                                <button className="btn btn-accent" style={{ width: '100%', marginTop: '8px' }} onClick={(e) => handleAddToCart(e, product)}>
                                                     Add to Cart
                                                 </button>
                                             </div>
