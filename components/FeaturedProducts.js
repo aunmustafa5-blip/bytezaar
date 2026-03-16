@@ -32,11 +32,11 @@ export default function FeaturedProducts() {
                         Curated performance hardware for professionals and enthusiasts.
                     </p>
                 </div>
-                
+
                 <div className={styles.grid}>
                     {featured.map(product => {
                         const savings = product.originalPrice ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) : 0;
-                        
+
                         return (
                             <div key={product.id} className={styles.card}>
                                 {/* Image Layer */}
@@ -68,7 +68,7 @@ export default function FeaturedProducts() {
                                 <div className={styles.bottomContent}>
                                     <span className={styles.categoryLabel}>{product.category}</span>
                                     <h3 className={styles.productName}>{product.name}</h3>
-                                    
+
                                     <div className={styles.ratingRow}>
                                         <div style={{ display: 'flex', gap: '2px', color: '#F6AD55' }}>
                                             {Array.from({ length: 5 }, (_, i) => (
@@ -95,7 +95,7 @@ export default function FeaturedProducts() {
 
                                     {/* Reveal on Hover */}
                                     <p className={styles.shortSpec}>
-                                        {product.description.split('.')[0]}.
+                                        {product.description?.split('.')[0]}.
                                     </p>
 
                                     <button className={styles.ctaButton} onClick={(e) => handleAddToCart(e, product)}>
@@ -103,9 +103,9 @@ export default function FeaturedProducts() {
                                     </button>
                                 </div>
 
-                                <Link 
-                                    href={`/product/${product.id}`} 
-                                    className="abs-link" 
+                                <Link
+                                    href={`/product/${product.id}`}
+                                    className="abs-link"
                                     style={{ position: 'absolute', inset: 0, zIndex: 3 }}
                                     aria-label={`View ${product.name}`}
                                 />

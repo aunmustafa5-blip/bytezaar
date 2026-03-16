@@ -1,7 +1,14 @@
 'use client';
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { products as initialProducts, orders as initialOrders, users as initialUsers, promos as initialPromos } from '@/lib/data';
+import initialProducts from '@/lib/products.json';
+import initialOrders from '@/lib/orders.json';
+import initialUsers from '@/lib/users.json';
+import { promos as initialPromos } from '@/lib/data'; // Keep mock promos for now or sync later
+import { useStore } from '@/context/StoreContext';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { updateSettings } from '@/lib/sheets-api';
 import {
     LayoutDashboard, Package, ShoppingCart, Users, Tag, Activity, Settings,
     Check, X, Info, Star, Trash2
@@ -13,6 +20,7 @@ const ADMIN_TABS = [
     { name: 'Orders', icon: <ShoppingCart size={18} /> },
     { name: 'Users', icon: <Users size={18} /> },
     { name: 'Discounts', icon: <Tag size={18} /> },
+    { name: 'Messages', icon: <Info size={18} /> },
     { name: 'Analytics', icon: <Activity size={18} /> },
     { name: 'Settings', icon: <Settings size={18} /> },
 ];
@@ -40,7 +48,17 @@ function Toast({ msg, type, onClose }) {
 }
 
 export default function AdminPage() {
+    const { user, isLoaded, formatPrice } = useStore();
+    const router = useRouter();
     const [activeSection, setActiveSection] = useState('Dashboard');
+
+    // Route Protection
+    useEffect(() => {
+        if (isLoaded && (!user || user.role !== 'admin')) {
+            router.push('/login');
+        }
+    }, [user, isLoaded, router]);
+
     const [productList, setProductList] = useState([...initialProducts]);
     const [orders, setOrders] = useState([...initialOrders]);
     const [promos, setPromos] = useState([...initialPromos]);
@@ -62,8 +80,13 @@ export default function AdminPage() {
         currency: 'PKR',
         instagram: 'https://www.instagram.com/byt3zaar/',
         youtube: 'https://www.youtube.com/@starrydustproductions',
-        whatsapp: '+92 326 4642243'
+        whatsapp: '923264642243'
     });
+
+    const [msgList, setMsgList] = useState([
+        { id: 1, name: 'John Doe', email: 'john@example.com', subject: 'Product Inquiry', message: 'I want to know about the NIA Pro headphones.', date: '2026-03-15', status: 'Unread' },
+        { id: 2, name: 'Alice Smith', email: 'alice@gmail.com', subject: 'Shipping Delay', message: 'My order hasn\'t arrived yet.', date: '2026-03-14', status: 'Read' }
+    ]);
 
     // Toast state
     const [toast, setToast] = useState({ message: '', type: 'success' });
@@ -178,8 +201,23 @@ export default function AdminPage() {
     };
 
     // Settings
-    const handleSaveSettings = () => {
-        showToast('Settings saved successfully!');
+    const handleSaveSettings = async () => {
+        const result = await updateSettings(settings);
+        if (result.success) {
+            showToast('Settings saved and synced successfully!');
+        } else {
+            showToast('Local settings updated. Sync failed.', 'info');
+        }
+    };
+
+    const handleMarkAsRead = (id) => {
+        setMsgList(prev => prev.map(m => m.id === id ? { ...m, status: 'Read' } : m));
+        showToast('Message marked as read');
+    };
+
+    const handleDeleteMsg = (id) => {
+        setMsgList(prev => prev.filter(m => m.id !== id));
+        showToast('Message deleted');
     };
 
     // Filtered products
@@ -244,9 +282,9 @@ export default function AdminPage() {
                             <p style={{ color: '#808080', marginTop: '4px' }}>Welcome back, Admin</p>
                         </div>
                         <div style={s.summaryGrid}>
-                            <div style={s.summaryCard}><p style={s.cardLabel}>Total Revenue</p><h3 style={s.cardValue}>Rs. 48,520</h3><p style={s.cardChange(true)}>↑ 12.5% from last month</p></div>
+                            <div style={s.summaryCard}><p style={s.cardLabel}>Total Revenue</p><h3 style={s.cardValue}>{formatPrice(orders.reduce((a, o) => a + o.total, 0))}</h3><p style={s.cardChange(true)}>↑ 12.5% from last month</p></div>
                             <div style={s.summaryCard}><p style={s.cardLabel}>Total Orders</p><h3 style={s.cardValue}>{orders.length.toLocaleString()}</h3><p style={s.cardChange(true)}>↑ 8.2% from last month</p></div>
-                            <div style={s.summaryCard}><p style={s.cardLabel}>Total Users</p><h3 style={s.cardValue}>3,891</h3><p style={s.cardChange(true)}>↑ 15.1% from last month</p></div>
+                            <div style={s.summaryCard}><p style={s.cardLabel}>Total Users</p><h3 style={s.cardValue}>{initialUsers.length}</h3><p style={s.cardChange(true)}>↑ 15.1% from last month</p></div>
                             <div style={s.summaryCard}><p style={s.cardLabel}>Products</p><h3 style={s.cardValue}>{productList.length}</h3><p style={s.cardChange(false)}>↓ 2 out of stock</p></div>
                         </div>
                         <div style={s.tableWrapper}>
@@ -258,7 +296,7 @@ export default function AdminPage() {
                                 <thead><tr><th style={s.th}>Order ID</th><th style={s.th}>Customer</th><th style={s.th}>Date</th><th style={s.th}>Status</th><th style={s.th}>Total</th></tr></thead>
                                 <tbody>
                                     {orders.slice(0, 5).map(order => (
-                                        <tr key={order.id}><td style={s.td}><strong>{order.id}</strong></td><td style={s.td}>{order.customer}</td><td style={{ ...s.td, color: '#808080' }}>{order.date}</td><td style={s.td}><span style={s.badge(order.status)}>{order.status}</span></td><td style={s.td}>Rs. {order.total.toFixed(0)}</td></tr>
+                                        <tr key={order.id}><td style={s.td}><strong>{order.id}</strong></td><td style={s.td}>{order.customer}</td><td style={{ ...s.td, color: '#808080' }}>{order.date}</td><td style={s.td}><span style={s.badge(order.status)}>{order.status}</span></td><td style={s.td}>{formatPrice(order.total)}</td></tr>
                                     ))}
                                 </tbody>
                             </table>
@@ -305,7 +343,7 @@ export default function AdminPage() {
                                                     </div>
                                                 </td>
                                                 <td style={{ ...s.td, color: '#808080' }}>{product.category}</td>
-                                                <td style={s.td}>${product.price.toFixed(2)}</td>
+                                                <td style={s.td}>{formatPrice(product.price)}</td>
                                                 <td style={s.td}><div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Star size={14} fill="currentColor" color="#FFD700" /> {product.rating}</div></td>
                                                 <td style={s.td}><span style={s.badge('Delivered')}>In Stock</span></td>
                                                 <td style={s.td}>
@@ -338,7 +376,7 @@ export default function AdminPage() {
                                             <td style={s.td}>{order.customer}</td>
                                             <td style={{ ...s.td, color: '#808080' }}>{order.date}</td>
                                             <td style={s.td}><span style={s.badge(order.status)}>{order.status}</span></td>
-                                            <td style={s.td}>${order.total.toFixed(2)}</td>
+                                            <td style={s.td}>{formatPrice(order.total)}</td>
                                             <td style={s.td}>
                                                 <button style={s.actionBtn} onClick={() => setShowOrderDetail(order)}>View</button>
                                                 {order.status === 'Processing' && <button style={{ ...s.actionBtn, color: '#60A5FA', borderColor: 'rgba(96,165,250,0.2)' }} onClick={() => handleUpdateOrderStatus(order.id, 'Shipped')}>Ship</button>}
@@ -391,14 +429,40 @@ export default function AdminPage() {
                     </>
                 )}
 
+                {/* ===== MESSAGES ===== */}
+                {activeSection === 'Messages' && (
+                    <>
+                        <div style={s.header}><h1 style={{ fontSize: '1.75rem', fontWeight: '700' }}>Messages</h1><p style={{ color: '#808080', marginTop: '4px' }}>Customer inquiries from Contact Us</p></div>
+                        <div style={s.tableWrapper}>
+                            <table style={s.table}>
+                                <thead><tr><th style={s.th}>Date</th><th style={s.th}>From</th><th style={s.th}>Subject</th><th style={s.th}>Status</th><th style={s.th}>Actions</th></tr></thead>
+                                <tbody>
+                                    {msgList.map(msg => (
+                                        <tr key={msg.id}>
+                                            <td style={{ ...s.td, color: '#808080' }}>{msg.date}</td>
+                                            <td style={s.td}><strong>{msg.name}</strong><br /><span style={{ fontSize: '0.75rem', color: '#808080' }}>{msg.email}</span></td>
+                                            <td style={s.td}>{msg.subject}</td>
+                                            <td style={s.td}><span style={s.badge(msg.status === 'Unread' ? 'Processing' : 'Delivered')}>{msg.status}</span></td>
+                                            <td style={s.td}>
+                                                <button style={s.actionBtn} onClick={() => { alert(`Message from ${msg.name}:\n\n${msg.message}`); handleMarkAsRead(msg.id); }}>Read</button>
+                                                <button style={{ ...s.actionBtn, color: '#FF6B6B', borderColor: 'rgba(255,107,107,0.2)' }} onClick={() => handleDeleteMsg(msg.id)}>Delete</button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </>
+                )}
+
                 {/* ===== ANALYTICS ===== */}
                 {activeSection === 'Analytics' && (
                     <>
                         <div style={s.header}><h1 style={{ fontSize: '1.75rem', fontWeight: '700' }}>Analytics</h1><p style={{ color: '#808080', marginTop: '4px' }}>Sales performance and insights</p></div>
                         <div style={s.summaryGrid}>
-                            <div style={s.summaryCard}><p style={s.cardLabel}>Revenue (Month)</p><h3 style={s.cardValue}>$12,450</h3><p style={s.cardChange(true)}>↑ 18%</p></div>
+                            <div style={s.summaryCard}><p style={s.cardLabel}>Revenue (Month)</p><h3 style={s.cardValue}>{formatPrice(orders.reduce((a, o) => a + o.total, 0))}</h3><p style={s.cardChange(true)}>↑ 18%</p></div>
                             <div style={s.summaryCard}><p style={s.cardLabel}>Orders (Month)</p><h3 style={s.cardValue}>{orders.length}</h3><p style={s.cardChange(true)}>↑ 12%</p></div>
-                            <div style={s.summaryCard}><p style={s.cardLabel}>Avg. Order Value</p><h3 style={s.cardValue}>${(orders.reduce((a, o) => a + o.total, 0) / orders.length).toFixed(2)}</h3><p style={s.cardChange(false)}>↓ 3%</p></div>
+                            <div style={s.summaryCard}><p style={s.cardLabel}>Avg. Order Value</p><h3 style={s.cardValue}>{formatPrice(orders.length > 0 ? orders.reduce((a, o) => a + o.total, 0) / orders.length : 0)}</h3><p style={s.cardChange(false)}>↓ 3%</p></div>
                             <div style={s.summaryCard}><p style={s.cardLabel}>Conversion Rate</p><h3 style={s.cardValue}>3.2%</h3><p style={s.cardChange(true)}>↑ 0.5%</p></div>
                         </div>
                         <div style={{ ...s.summaryCard, padding: '2rem' }}>
@@ -438,11 +502,8 @@ export default function AdminPage() {
                                 <label className="form-label">Store Email</label>
                                 <input className="form-input" value={settings.storeEmail} onChange={e => setSettings(s => ({ ...s, storeEmail: e.target.value }))} />
                             </div>
-                            <div className="form-group">
-                                <label className="form-label">Currency</label>
-                                <input className="form-input" value={settings.currency} onChange={e => setSettings(s => ({ ...s, currency: e.target.value }))} />
-                            </div>
-                            <h3 style={{ fontSize: '1rem', fontWeight: '600', marginTop: '2rem', marginBottom: '1.5rem' }}>Social Links</h3>
+                            
+                            <h3 style={{ fontSize: '1rem', fontWeight: '600', margin: '2rem 0 1.5rem' }}>Social Links</h3>
                             <div className="form-group">
                                 <label className="form-label">Instagram URL</label>
                                 <input className="form-input" value={settings.instagram} onChange={e => setSettings(s => ({ ...s, instagram: e.target.value }))} />
@@ -452,10 +513,11 @@ export default function AdminPage() {
                                 <input className="form-input" value={settings.youtube} onChange={e => setSettings(s => ({ ...s, youtube: e.target.value }))} />
                             </div>
                             <div className="form-group">
-                                <label className="form-label">WhatsApp Number</label>
+                                <label className="form-label">WhatsApp Number (e.g. 923xxxxxxxxx)</label>
                                 <input className="form-input" value={settings.whatsapp} onChange={e => setSettings(s => ({ ...s, whatsapp: e.target.value }))} />
                             </div>
-                            <button className="btn btn-primary" onClick={handleSaveSettings} style={{ marginTop: '1rem' }}>Save Settings</button>
+
+                            <button className="btn btn-primary" style={{ marginTop: '1rem', width: '100%' }} onClick={handleSaveSettings}>Save Settings</button>
                         </div>
                     </>
                 )}
@@ -544,7 +606,7 @@ export default function AdminPage() {
                             <div style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ color: '#808080', fontSize: '0.875rem' }}>Customer</span><span style={{ fontWeight: '500' }}>{showOrderDetail.customer}</span></div>
                             <div style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ color: '#808080', fontSize: '0.875rem' }}>Date</span><span>{showOrderDetail.date}</span></div>
                             <div style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ color: '#808080', fontSize: '0.875rem' }}>Status</span><span style={s.badge(showOrderDetail.status)}>{showOrderDetail.status}</span></div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ color: '#808080', fontSize: '0.875rem' }}>Total</span><span style={{ fontWeight: '700', fontSize: '1.1rem' }}>${showOrderDetail.total.toFixed(2)}</span></div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ color: '#808080', fontSize: '0.875rem' }}>Total</span><span style={{ fontWeight: '700', fontSize: '1.1rem' }}>{formatPrice(showOrderDetail.total)}</span></div>
                         </div>
                         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                             <button className="btn btn-secondary btn-sm" onClick={() => handleUpdateOrderStatus(showOrderDetail.id, 'Processing')}>Mark Processing</button>

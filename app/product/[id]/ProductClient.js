@@ -2,19 +2,48 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import { Star, ChevronLeft, Minus, Plus, CheckCircle } from 'lucide-react';
+import { Star, ChevronLeft, Minus, Plus, CheckCircle, X } from 'lucide-react';
 import { useStore } from '@/context/StoreContext';
 import styles from './Product.module.css';
 
 export default function ProductClient({ product, matchedReviews, recommended }) {
-    const { addToCart } = useStore();
+    const { addToCart, formatPrice, user } = useStore();
     const [quantity, setQuantity] = useState(1);
     const [showToast, setShowToast] = useState(false);
+    const [showReviewForm, setShowReviewForm] = useState(false);
+    const [reviewLoading, setReviewLoading] = useState(false);
+    const [newReview, setNewReview] = useState({ rating: 5, text: '' });
 
     const handleAddToCart = () => {
         addToCart(product, quantity);
         setShowToast(true);
         setTimeout(() => setShowToast(false), 3000);
+    };
+
+    const handleReviewSubmit = async (e) => {
+        e.preventDefault();
+        if (!user) return alert('Please login to write a review');
+        
+        setReviewLoading(true);
+        try {
+            const { submitReview } = await import('@/lib/sheets-api');
+            await submitReview({
+                productId: product.id,
+                product: product.name,
+                name: user.name,
+                rating: newReview.rating,
+                text: newReview.text,
+                date: new Date().toLocaleDateString()
+            });
+            alert('Review submitted for approval!');
+            setShowReviewForm(false);
+            setNewReview({ rating: 5, text: '' });
+        } catch (err) {
+            console.error(err);
+            alert('Failed to submit review');
+        } finally {
+            setReviewLoading(false);
+        }
     };
 
     return (
@@ -67,9 +96,9 @@ export default function ProductClient({ product, matchedReviews, recommended }) 
                         </div>
 
                         <div className={styles.priceRow}>
-                            <span className={styles.price}>${product.price.toFixed(2)}</span>
+                            <span className={styles.price}>{formatPrice(product.price)}</span>
                             {product.originalPrice && (
-                                <span className={styles.originalPrice}>${product.originalPrice.toFixed(2)}</span>
+                                <span className={styles.originalPrice}>{formatPrice(product.originalPrice)}</span>
                             )}
                         </div>
 
@@ -115,8 +144,53 @@ export default function ProductClient({ product, matchedReviews, recommended }) 
                 <div className={styles.reviewsSection}>
                     <div className={styles.reviewsHeader}>
                         <h2>Customer Reviews</h2>
-                        <button className="btn btn-secondary">Write a Review</button>
+                        <button 
+                            className="btn btn-secondary"
+                            onClick={() => user ? setShowReviewForm(true) : alert('Please login to write a review')}
+                        >
+                            Write a Review
+                        </button>
                     </div>
+
+                    {showReviewForm && (
+                        <div className={styles.reviewFormOverlay}>
+                            <div className={styles.reviewFormCard}>
+                                <button className={styles.closeBtn} onClick={() => setShowReviewForm(false)}><X size={20}/></button>
+                                <h3>Write a Review</h3>
+                                <form onSubmit={handleReviewSubmit}>
+                                    <div className="form-group">
+                                        <label className="form-label">Rating</label>
+                                        <div className={styles.starInput}>
+                                            {[1,2,3,4,5].map(star => (
+                                                <Star 
+                                                    key={star} 
+                                                    size={24} 
+                                                    fill={star <= newReview.rating ? "#FFD700" : "none"} 
+                                                    color="#FFD700"
+                                                    style={{ cursor: 'pointer' }}
+                                                    onClick={() => setNewReview({...newReview, rating: star})}
+                                                />
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="form-label">Your Review</label>
+                                        <textarea 
+                                            className="form-input" 
+                                            rows="4" 
+                                            required 
+                                            value={newReview.text}
+                                            onChange={(e) => setNewReview({...newReview, text: e.target.value})}
+                                            placeholder="What did you like or dislike about this product?"
+                                        ></textarea>
+                                    </div>
+                                    <button type="submit" className="btn btn-primary" style={{ width: '100%' }} disabled={reviewLoading}>
+                                        {reviewLoading ? 'Submitting...' : 'Post Review'}
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    )}
 
                     {matchedReviews.length > 0 ? (
                         <div className={styles.reviewsGrid}>
@@ -156,7 +230,7 @@ export default function ProductClient({ product, matchedReviews, recommended }) 
                                     <div className={styles.recInfo}>
                                         <p className={styles.recCategory}>{item.category}</p>
                                         <h3 className={styles.recName}>{item.name}</h3>
-                                        <p className={styles.recPrice}>${item.price.toFixed(2)}</p>
+                                        <p className={styles.recPrice}>{formatPrice(item.price)}</p>
                                     </div>
                                 </Link>
                             ))}

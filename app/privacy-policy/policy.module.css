@@ -1,0 +1,48 @@
+.policyPage {
+    padding-top: 120px;
+    padding-bottom: 80px;
+    min-height: 80vh;
+}
+
+.content {
+    max-width: 800px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    padding: 3rem;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.3);
+}
+
+.content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #fff 0%, #a0a0a0 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.updated {
+    color: #808080;
+    font-size: 0.9rem;
+    margin-bottom: 2.5rem;
+}
+
+.content section {
+    margin-bottom: 2rem;
+}
+
+.content h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.content p {
+    color: #b0b0b0;
+    line-height: 1.6;
+    font-size: 1rem;
+}

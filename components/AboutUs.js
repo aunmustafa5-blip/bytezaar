@@ -14,7 +14,7 @@ export default function AboutUs() {
                             alt="About Bytezaar"
                             width={500}
                             height={500}
-                            style={{ objectFit: 'cover' }}
+                            style={{ objectFit: 'contain' }}
                         />
                         <div className={styles.aboutImageOverlay} />
                     </div>

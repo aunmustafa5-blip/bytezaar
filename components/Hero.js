@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Star } from 'lucide-react';
+import { products, users, reviews } from '@/lib/data';
 import styles from './Hero.module.css';
 
 export default function Hero() {
@@ -30,15 +31,15 @@ export default function Hero() {
                     </div>
                     <div className={styles.heroStats}>
                         <div className={styles.stat}>
-                            <h3>500+</h3>
+                            <h3>{products.length}+</h3>
                             <p>Products</p>
                         </div>
                         <div className={styles.stat}>
-                            <h3>50K+</h3>
+                            <h3>{users.length}+</h3>
                             <p>Customers</p>
                         </div>
                         <div className={styles.stat}>
-                            <h3>4.9 <Star fill="currentColor" strokeWidth={0} size={24} style={{ display: 'inline', verticalAlign: 'middle', marginBottom: '4px' }} /></h3>
+                            <h3>{(reviews.length > 0 ? reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length : 4.9).toFixed(1)} <Star fill="currentColor" strokeWidth={0} size={24} style={{ display: 'inline', verticalAlign: 'middle', marginBottom: '4px' }} /></h3>
                             <p>Rating</p>
                         </div>
                     </div>

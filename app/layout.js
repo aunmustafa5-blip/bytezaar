@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import LoadingScreen from '@/components/LoadingScreen';
 import BackgroundManager from '@/components/BackgroundManager';
+import { StoreProvider } from '@/context/StoreContext';
 
 const displayFont = Syne({
     subsets: ['latin'],
@@ -35,7 +36,6 @@ export const metadata = {
     keywords: 'tech accessories, headphones, keyboards, mouse, projectors, gaming, premium',
 };
 
-import { StoreProvider } from '@/context/StoreContext';
 
 export default function RootLayout({ children }) {
     return (

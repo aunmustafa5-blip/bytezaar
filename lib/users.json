@@ -1,0 +1,10 @@
+[
+    {
+        "id": "1",
+        "name": "Admin User",
+        "email": "admin@bytezaar.com",
+        "password": "admin123",
+        "role": "admin",
+        "joinDate": "2026-01-01"
+    }
+]

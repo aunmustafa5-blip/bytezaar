@@ -3,11 +3,17 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useStore } from '@/context/StoreContext';
 import { Minus, Plus, Trash2, ArrowRight, ShoppingBag } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import styles from './cart.module.css';
 
 export default function CartPage() {
-    const { cart, cartTotal, updateQuantity, removeFromCart, isLoaded } = useStore();
+    const { cart, cartTotal, updateQuantity, removeFromCart, isLoaded, formatPrice, user } = useStore();
+    const router = useRouter();
 
+    if (isLoaded && user?.role === 'admin') {
+        router.push('/admin');
+        return null;
+    }
     if (!isLoaded) return (
         <div className={styles.cartPage}>
             <div className="container" style={{ textAlign: 'center', padding: '100px 0' }}>
@@ -66,8 +72,8 @@ export default function CartPage() {
                                                 <button onClick={() => updateQuantity(item.id, 1)} aria-label="Increase"><Plus size={14} /></button>
                                             </div>
                                             <div className={styles.priceColumn}>
-                                                <p className={styles.unitPrice}>${item.price.toFixed(2)} each</p>
-                                                <p className={styles.itemPrice}>${(item.price * item.quantity).toFixed(2)}</p>
+                                                <p className={styles.unitPrice}>{formatPrice(item.price)} each</p>
+                                                <p className={styles.itemPrice}>{formatPrice(item.price * item.quantity)}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -81,7 +87,7 @@ export default function CartPage() {
                                 <div className={styles.summaryContent}>
                                     <div className={styles.summaryRow}>
                                         <span>Subtotal</span>
-                                        <span>${cartTotal.toFixed(2)}</span>
+                                        <span>{formatPrice(cartTotal)}</span>
                                     </div>
                                     <div className={styles.summaryRow}>
                                         <span>Estimated Shipping</span>
@@ -96,7 +102,7 @@ export default function CartPage() {
                                     
                                     <div className={`${styles.summaryRow} ${styles.total}`}>
                                         <span>Total</span>
-                                        <span>${cartTotal.toFixed(2)}</span>
+                                        <span>{formatPrice(cartTotal)}</span>
                                     </div>
                                     
                                     <Link href="/checkout" className={`btn btn-primary ${styles.checkoutBtn}`}>

@@ -1,0 +1,13 @@
+[
+    {
+        "id": "BZ-2026-001",
+        "customerEmail": "customer@example.com",
+        "date": "2026-03-12",
+        "status": "Delivered",
+        "total": 4500,
+        "paymentMethod": "Card",
+        "items": [
+            { "id": 1, "name": "NIA Pro Wireless Headphones", "price": 4500, "quantity": 1 }
+        ]
+    }
+]

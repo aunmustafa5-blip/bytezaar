@@ -14,7 +14,7 @@ export function StoreProvider({ children }) {
         try {
             const savedCart = localStorage.getItem('bytezaar_cart');
             const savedUser = localStorage.getItem('bytezaar_user');
-            
+
             if (savedCart) setCart(JSON.parse(savedCart));
             if (savedUser) setUser(JSON.parse(savedUser));
         } catch (e) {
@@ -42,12 +42,19 @@ export function StoreProvider({ children }) {
 
     // ==== CART ACTIONS ====
     const addToCart = (product, quantity = 1) => {
+        if (!user) {
+            alert('Please login to add items to your cart.');
+            // Usually we'd use a toast, but this is a simple guard
+            window.location.href = '/login';
+            return;
+        }
+
         setCart(prev => {
             const existing = prev.find(item => item.id === product.id);
             if (existing) {
                 // If exists, bump quantity
-                return prev.map(item => 
-                    item.id === product.id 
+                return prev.map(item =>
+                    item.id === product.id
                         ? { ...item, quantity: item.quantity + quantity }
                         : item
                 );
@@ -85,14 +92,14 @@ export function StoreProvider({ children }) {
         setUser(null);
     };
 
-    // ==== UTILS ====
+    // ==== UTILITIES ====
     const formatPrice = (price) => {
         return new Intl.NumberFormat('en-PK', {
             style: 'currency',
             currency: 'PKR',
             minimumFractionDigits: 0,
-            maximumFractionDigits: 0
-        }).format(price);
+            maximumFractionDigits: 0,
+        }).format(price).replace('PKR', 'Rs.');
     };
 
     return (
@@ -103,7 +110,7 @@ export function StoreProvider({ children }) {
             isLoaded,
             cartTotal,
             cartCount,
-            
+
             // Actions
             addToCart,
             removeFromCart,

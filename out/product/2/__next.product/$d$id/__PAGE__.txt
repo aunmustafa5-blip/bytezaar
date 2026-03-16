@@ -1,0 +1,7 @@
+1:"$Sreact.fragment"
+2:I[79224,["/_next/static/chunks/7d52918056bff39d.js","/_next/static/chunks/ed67e86b40df36cd.js"],"default"]
+3:I[97367,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/d2be314c3ece3fbe.js"],"OutletBoundary"]
+4:"$Sreact.suspense"
+:HL["/_next/static/chunks/69acf27ae78a2fe2.css","style"]
+0:{"buildId":"amt8MkvQB39Za0Be7dvBw","rsc":["$","$1","c",{"children":[["$","$L2",null,{"product":{"id":2,"name":"MechPro 65% Mechanical Keyboard","category":"Keyboards","price":8500,"originalPrice":12000,"image":"/images/Whisk_f10ae1b73ba921a85f34ef61cf5405dddr.png","description":"Ultra-responsive mechanical switches with customizable RGB lighting.","rating":4.9,"reviews":86,"badge":"New","inStock":true,"dateAdded":"2026-02-15"},"matchedReviews":[],"recommended":[]}],[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/69acf27ae78a2fe2.css","precedence":"next"}],["$","script","script-0",{"src":"/_next/static/chunks/ed67e86b40df36cd.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"loading":null,"isPartial":false}
+5:null

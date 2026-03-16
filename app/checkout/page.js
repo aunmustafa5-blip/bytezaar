@@ -1,36 +1,54 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useStore } from '@/context/StoreContext';
 import { useRouter } from 'next/navigation';
-import { CheckCircle, CreditCard, Truck, ShieldCheck, ArrowLeft } from 'lucide-react';
+import { CheckCircle, CreditCard, Truck, ShieldCheck, ArrowLeft, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
+import { validateCardNumber, validateExpiry, validateCVV } from '@/lib/card-validation';
+import { createOrder } from '@/lib/sheets-api';
 import styles from './checkout.module.css';
 
 export default function CheckoutPage() {
-    const { cart, cartTotal, clearCart, isLoaded } = useStore();
+    const { cart, cartTotal, clearCart, isLoaded, user, formatPrice } = useStore();
     const router = useRouter();
     const [step, setStep] = useState(1); // 1: Info, 2: Payment, 3: Success
     const [isProcessing, setIsProcessing] = useState(false);
     const [paymentMethod, setPaymentMethod] = useState('card'); // 'card' or 'cod'
-    const [cardData, setCardData] = useState({ number: '', expiry: '', cvc: '' });
+    const [cardData, setCardData] = useState({ number: '', expiry: '', cvv: '' });
     const [cardError, setCardError] = useState('');
+    const [orderId, setOrderId] = useState('');
 
-    const validateCard = (number) => {
-        const cleanNumber = number.replace(/\s+/g, '');
-        if (!/^\d{16}$/.test(cleanNumber)) return false;
-        
-        // Luhn Algorithm
-        let sum = 0;
-        for (let i = 0; i < cleanNumber.length; i++) {
-            let digit = parseInt(cleanNumber[i]);
-            if ((cleanNumber.length - i) % 2 === 0) {
-                digit *= 2;
-                if (digit > 9) digit -= 9;
-            }
-            sum += digit;
+    const [shippingData, setShippingData] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        address: '',
+        city: '',
+        postalCode: ''
+    });
+
+    // Populate email if user is logged in
+    useEffect(() => {
+        if (user) {
+            setShippingData(prev => ({ 
+                ...prev, 
+                email: user.email,
+                firstName: user.name?.split(' ')[0] || '',
+                lastName: user.name?.split(' ').slice(1).join(' ') || ''
+            }));
         }
-        return sum % 10 === 0;
-    };
+    }, [user]);
+
+    if (isLoaded && !user) {
+        return (
+            <div className="container" style={{ paddingTop: '120px', textAlign: 'center', minHeight: '60vh' }}>
+                <AlertCircle size={48} color="#ff4b4b" style={{ marginBottom: '1rem' }} />
+                <h2 style={{ fontSize: '2rem', marginBottom: '1.5rem' }}>Login Required</h2>
+                <p style={{ color: '#808080', marginBottom: '2.5rem' }}>You must be logged in to proceed to checkout.</p>
+                <Link href="/login" className="btn btn-primary">Login Now</Link>
+            </div>
+        );
+    }
 
     if (!isLoaded) return (
         <div className={styles.checkoutPage}>
@@ -61,25 +79,51 @@ export default function CheckoutPage() {
         window.scrollTo(0, 0);
     };
 
-    const handleComplete = (e) => {
+    const handleComplete = async (e) => {
         e.preventDefault();
         
         if (paymentMethod === 'card') {
-            if (!validateCard(cardData.number)) {
-                setCardError('Please enter a valid 16-digit card number.');
+            if (!validateCardNumber(cardData.number)) {
+                setCardError('Please enter a valid card number.');
+                return;
+            }
+            if (!validateExpiry(cardData.expiry)) {
+                setCardError('Please enter a valid expiry date (MM/YY).');
+                return;
+            }
+            if (!validateCVV(cardData.cvv)) {
+                setCardError('Please enter a valid 3 or 4 digit CVV.');
                 return;
             }
             setCardError('');
         }
 
         setIsProcessing(true);
-        // Mock processing delay
-        setTimeout(() => {
+        const newOrderId = `BZR-${Math.floor(Date.now() / 1000)}-${Math.floor(Math.random() * 900) + 100}`;
+        setOrderId(newOrderId);
+
+        try {
+            await createOrder({
+                id: newOrderId,
+                customerEmail: user.email,
+                customerName: `${shippingData.firstName} ${shippingData.lastName}`,
+                date: new Date().toISOString(),
+                status: 'Pending',
+                total: cartTotal,
+                paymentMethod: paymentMethod === 'card' ? 'Credit Card' : 'Cash on Delivery',
+                items: cart.map(item => ({ id: item.id, name: item.name, quantity: item.quantity, price: item.price })),
+                shippingAddress: `${shippingData.address}, ${shippingData.city}, ${shippingData.postalCode}`
+            });
+
             setIsProcessing(false);
             setStep(3);
             clearCart();
             window.scrollTo(0, 0);
-        }, 2000);
+        } catch (err) {
+            console.error('Order creation error:', err);
+            alert('Something went wrong. Please try again.');
+            setIsProcessing(false);
+        }
     };
 
     return (
@@ -106,27 +150,70 @@ export default function CheckoutPage() {
                             <div className={styles.formGrid}>
                                 <div className="form-group">
                                     <label className="form-label">First Name</label>
-                                    <input type="text" className="form-input" placeholder="John" required />
+                                    <input 
+                                        type="text" 
+                                        className="form-input" 
+                                        placeholder="John" 
+                                        value={shippingData.firstName}
+                                        onChange={e => setShippingData({...shippingData, firstName: e.target.value})}
+                                        required 
+                                    />
                                 </div>
                                 <div className="form-group">
                                     <label className="form-label">Last Name</label>
-                                    <input type="text" className="form-input" placeholder="Doe" required />
+                                    <input 
+                                        type="text" 
+                                        className="form-input" 
+                                        placeholder="Doe" 
+                                        value={shippingData.lastName}
+                                        onChange={e => setShippingData({...shippingData, lastName: e.target.value})}
+                                        required 
+                                    />
                                 </div>
                                 <div className="form-group" style={{ gridColumn: 'span 2' }}>
                                     <label className="form-label">Email Address</label>
-                                    <input type="email" className="form-input" placeholder="john@example.com" required />
+                                    <input 
+                                        type="email" 
+                                        className="form-input" 
+                                        placeholder="john@example.com" 
+                                        value={shippingData.email}
+                                        onChange={e => setShippingData({...shippingData, email: e.target.value})}
+                                        disabled={!!user}
+                                        required 
+                                    />
                                 </div>
                                 <div className="form-group" style={{ gridColumn: 'span 2' }}>
                                     <label className="form-label">Street Address</label>
-                                    <input type="text" className="form-input" placeholder="123 Tech Lane" required />
+                                    <input 
+                                        type="text" 
+                                        className="form-input" 
+                                        placeholder="123 Tech Lane" 
+                                        value={shippingData.address}
+                                        onChange={e => setShippingData({...shippingData, address: e.target.value})}
+                                        required 
+                                    />
                                 </div>
                                 <div className="form-group">
                                     <label className="form-label">City</label>
-                                    <input type="text" className="form-input" placeholder="San Francisco" required />
+                                    <input 
+                                        type="text" 
+                                        className="form-input" 
+                                        placeholder="Lahore" 
+                                        value={shippingData.city}
+                                        onChange={e => setShippingData({...shippingData, city: e.target.value})}
+                                        required 
+                                    />
                                 </div>
                                 <div className="form-group">
                                     <label className="form-label">Postal Code</label>
-                                    <input type="text" className="form-input" placeholder="94103" required />
+                                    <input 
+                                        type="text" 
+                                        className="form-input" 
+                                        placeholder="54000" 
+                                        value={shippingData.postalCode}
+                                        onChange={e => setShippingData({...shippingData, postalCode: e.target.value})}
+                                        required 
+                                    />
                                 </div>
                             </div>
                             <div className={styles.formActions}>
@@ -138,7 +225,7 @@ export default function CheckoutPage() {
                                 </button>
                             </div>
                         </form>
-                        <OrderSummary cart={cart} cartTotal={cartTotal} />
+                        <OrderSummary cart={cart} cartTotal={cartTotal} formatPrice={formatPrice} />
                     </div>
                 )}
 
@@ -154,7 +241,7 @@ export default function CheckoutPage() {
                                 >
                                     <div className={styles.methodIcon}><CreditCard size={20} /></div>
                                     <span className={styles.methodName}>Credit Card</span>
-                                    <span className={styles.methodDesc}>Secure payment via Stripe</span>
+                                    <span className={styles.methodDesc}>Secure encrypted payment</span>
                                 </div>
                                 <div 
                                     className={`${styles.methodOption} ${paymentMethod === 'cod' ? styles.active : ''}`}
@@ -198,13 +285,13 @@ export default function CheckoutPage() {
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label className="form-label">CVC</label>
+                                                <label className="form-label">CVV</label>
                                                 <input 
                                                     type="text" 
                                                     className="form-input" 
                                                     placeholder="123" 
-                                                    value={cardData.cvc}
-                                                    onChange={e => setCardData({...cardData, cvc: e.target.value})}
+                                                    value={cardData.cvv}
+                                                    onChange={e => setCardData({...cardData, cvv: e.target.value})}
                                                     required 
                                                 />
                                             </div>
@@ -228,12 +315,12 @@ export default function CheckoutPage() {
                                         <ArrowLeft size={16} /> Back to Shipping
                                     </button>
                                     <button type="submit" className="btn btn-primary" disabled={isProcessing}>
-                                        {isProcessing ? 'Processing...' : `Place Order — $${cartTotal.toFixed(2)}`}
+                                        {isProcessing ? 'Processing...' : `Place Order — ${formatPrice(cartTotal)}`}
                                     </button>
                                 </div>
                             </form>
                         </div>
-                        <OrderSummary cart={cart} cartTotal={cartTotal} paymentMethod={paymentMethod} />
+                        <OrderSummary cart={cart} cartTotal={cartTotal} paymentMethod={paymentMethod} formatPrice={formatPrice} />
                     </div>
                 )}
 
@@ -243,9 +330,9 @@ export default function CheckoutPage() {
                             <CheckCircle size={64} />
                         </div>
                         <h1>Order Confirmed!</h1>
-                        <p>Thank you for your purchase. We&apos;ve sent a confirmation email to your inbox.</p>
+                        <p>Thank you for your purchase. We&apos;ve sent a confirmation email to {shippingData.email}.</p>
                         <div className={styles.orderNumber}>
-                            Order #BZR-{Math.floor(Math.random() * 90000) + 10000}
+                            Order #{orderId}
                         </div>
                         {paymentMethod === 'cod' && (
                             <div style={{ marginBottom: '2rem', color: '#808080', fontSize: '0.9rem' }}>
@@ -267,7 +354,7 @@ export default function CheckoutPage() {
     );
 }
 
-function OrderSummary({ cart, cartTotal, paymentMethod }) {
+function OrderSummary({ cart, cartTotal, paymentMethod, formatPrice }) {
     return (
         <aside className={styles.sidebar}>
             <div className={styles.summaryBox}>
@@ -279,14 +366,14 @@ function OrderSummary({ cart, cartTotal, paymentMethod }) {
                                 <span className={styles.itemName}>{item.name}</span>
                                 <span className={styles.itemQty}>Qty: {item.quantity}</span>
                             </div>
-                            <span className={styles.itemPrice}>${(item.price * item.quantity).toFixed(2)}</span>
+                            <span className={styles.itemPrice}>{formatPrice(item.price * item.quantity)}</span>
                         </div>
                     ))}
                 </div>
                 <div className={styles.divider} />
                 <div className={styles.summaryTotal}>
                     <span>Total Amount</span>
-                    <span>${cartTotal.toFixed(2)}</span>
+                    <span>{formatPrice(cartTotal)}</span>
                 </div>
                 {paymentMethod && (
                     <div style={{ fontSize: '0.75rem', color: '#808080', marginBottom: '1rem', textAlign: 'right' }}>

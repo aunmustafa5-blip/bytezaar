@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useStore } from '@/context/StoreContext';
+import allOrders from '@/lib/orders.json';
 
 const tabs = ['Profile', 'Orders', 'Wishlist', 'Addresses', 'Password'];
 
@@ -37,9 +38,11 @@ function Toast({ message, type, onClose }) {
 }
 
 export default function DashboardPage() {
-    const { user, logout, isLoaded } = useStore();
+    const { user, logout, isLoaded, formatPrice } = useStore();
     const router = useRouter();
     const [activeTab, setActiveTab] = useState('Profile');
+
+    const userOrders = allOrders.filter(o => o.customer === user?.name || o.email === user?.email);
 
     // Auth Guard
     useEffect(() => {
@@ -59,8 +62,8 @@ export default function DashboardPage() {
         if (user) {
             setProfile(prev => ({
                 ...prev,
-                firstName: user.name.split(' ')[0],
-                lastName: user.name.split(' ')[1] || '',
+                firstName: user.name?.split(' ')[0] || '',
+                lastName: user.name?.split(' ')[1] || '',
                 email: user.email
             }));
         }
@@ -144,7 +147,7 @@ export default function DashboardPage() {
             <div style={gridStyle}>
                 <aside style={sidebarStyle}>
                     <div style={{ textAlign: 'center', paddingBottom: '1.5rem', borderBottom: '1px solid rgba(255,255,255,0.08)', marginBottom: '1.5rem' }}>
-                        <div style={avatarStyle}>{profile.firstName[0]}{profile.lastName[0]}</div>
+                        <div style={avatarStyle}>{profile.firstName?.[0] || '?'}{profile.lastName?.[0] || ''}</div>
                         <h3 style={{ fontSize: '1rem', fontWeight: '600' }}>{profile.firstName} {profile.lastName}</h3>
                         <p style={{ fontSize: '0.75rem', color: '#808080' }}>{profile.email}</p>
                     </div>
@@ -167,7 +170,7 @@ export default function DashboardPage() {
                         <>
                             <h2 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '1.5rem' }}>Profile Information</h2>
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', marginBottom: '2rem' }}>
-                                <div style={cardStyle}><p style={{ fontSize: '0.75rem', color: '#808080', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Total Orders</p><h3 style={{ fontSize: '1.5rem', fontWeight: '700' }}>{initialOrders.length}</h3></div>
+                                <div style={cardStyle}><p style={{ fontSize: '0.75rem', color: '#808080', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Total Orders</p><h3 style={{ fontSize: '1.5rem', fontWeight: '700' }}>{userOrders.length}</h3></div>
                                 <div style={cardStyle}><p style={{ fontSize: '0.75rem', color: '#808080', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Wishlist</p><h3 style={{ fontSize: '1.5rem', fontWeight: '700' }}>{wishlist.length}</h3></div>
                                 <div style={cardStyle}><p style={{ fontSize: '0.75rem', color: '#808080', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Addresses</p><h3 style={{ fontSize: '1.5rem', fontWeight: '700' }}>{addresses.length}</h3></div>
                             </div>
@@ -186,18 +189,22 @@ export default function DashboardPage() {
                         <>
                             <h2 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '1.5rem' }}>Order History</h2>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                                {initialOrders.map(order => (
-                                    <div key={order.id} style={{ ...cardStyle, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                        <div>
-                                            <h4 style={{ fontSize: '0.875rem', fontWeight: '600', marginBottom: '4px' }}>{order.id}</h4>
-                                            <p style={{ fontSize: '0.75rem', color: '#808080' }}>{order.date} · {order.items} item{order.items > 1 ? 's' : ''}</p>
+                                {userOrders.length === 0 ? (
+                                    <p style={{ color: '#808080', textAlign: 'center', padding: '2rem' }}>No orders found yet.</p>
+                                ) : (
+                                    userOrders.map(order => (
+                                        <div key={order.id} style={{ ...cardStyle, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                            <div>
+                                                <h4 style={{ fontSize: '0.875rem', fontWeight: '600', marginBottom: '4px' }}>{order.id}</h4>
+                                                <p style={{ fontSize: '0.75rem', color: '#808080' }}>{order.date} · 1 item</p>
+                                            </div>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                                <span style={statusStyle(order.status)}>{order.status}</span>
+                                                <span style={{ fontWeight: '600' }}>{formatPrice(order.total)}</span>
+                                            </div>
                                         </div>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                            <span style={statusStyle(order.status)}>{order.status}</span>
-                                            <span style={{ fontWeight: '600' }}>${order.total.toFixed(2)}</span>
-                                        </div>
-                                    </div>
-                                ))}
+                                    ))
+                                )}
                             </div>
                         </>
                     )}
@@ -221,7 +228,7 @@ export default function DashboardPage() {
                                             </div>
                                             <div style={{ flex: 1 }}>
                                                 <h4 style={{ fontSize: '0.875rem', fontWeight: '600', marginBottom: '4px' }}>{item.name}</h4>
-                                                <p style={{ fontWeight: '700', marginBottom: '8px' }}>${item.price}</p>
+                                                <p style={{ fontWeight: '700', marginBottom: '8px' }}>{formatPrice(item.price)}</p>
                                                 <button style={{ ...actionBtn, color: '#FF6B6B', borderColor: 'rgba(255,107,107,0.2)' }} onClick={() => handleRemoveWishlist(item.id)}>Remove</button>
                                             </div>
                                         </div>

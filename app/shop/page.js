@@ -12,23 +12,13 @@ const ITEMS_PER_PAGE = 6;
 export default function ShopPage() {
     const [search, setSearch] = useState('');
     const [selectedCategories, setSelectedCategories] = useState([]);
-    const [maxPrice, setMaxPrice] = useState(1000000); // Default high for PKR
+    const [maxPrice, setMaxPrice] = useState(500);
     const [sortBy, setSortBy] = useState('default');
     const [currentPage, setCurrentPage] = useState(1);
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    
+
     // Add cart capability
     const { addToCart, formatPrice } = useStore();
-
-    const maxProductPrice = useMemo(() => {
-        if (products.length === 0) return 1000000;
-        return Math.max(...products.map(p => p.price));
-    }, []);
-
-    // Set initial maxPrice once products are available if it's still at default
-    useState(() => {
-        setMaxPrice(maxProductPrice);
-    });
 
     const handleMouseMove = (e) => {
         const card = e.currentTarget;
@@ -71,7 +61,7 @@ export default function ShopPage() {
     const handleAddToCart = (e, product) => {
         e.preventDefault(); // Stop Link propagation if nested differently
         addToCart(product, 1);
-        
+
         // Visual feedback button states could go here, but context handles badge reliably
     };
 
@@ -165,13 +155,12 @@ export default function ShopPage() {
                                     type="range"
                                     className={styles.rangeSlider}
                                     min="0"
-                                    max={maxProductPrice}
-                                    step="100"
+                                    max="500"
                                     value={maxPrice}
                                     onChange={e => { setMaxPrice(Number(e.target.value)); setCurrentPage(1); }}
                                 />
                                 <div className={styles.priceLabels}>
-                                    <span>Rs. 0</span>
+                                    <span>{formatPrice(0)}</span>
                                     <span>{formatPrice(maxPrice)}</span>
                                 </div>
                             </div>
