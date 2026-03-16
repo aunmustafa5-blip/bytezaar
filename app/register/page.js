@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import styles from '../login/login.module.css';
 
 import { useStore } from '@/context/StoreContext';
+import users from '@/lib/users.json';
 
 export default function RegisterPage() {
     const router = useRouter();
@@ -38,9 +39,7 @@ export default function RegisterPage() {
         setLoading(true);
         
         try {
-            // 1. Check uniqueness from synced JSON
-            const usersResp = await fetch('/lib/users.json');
-            const users = await usersResp.json();
+            // 1. Check uniqueness from synced JSON (imported statically)
             
             if (users.find(u => u.email.toLowerCase() === email.toLowerCase())) {
                 setError('An account with this email already exists.');

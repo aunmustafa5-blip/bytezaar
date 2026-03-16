@@ -1,9 +1,10 @@
 'use client';
 import { useState } from 'react';
 import styles from '../privacy-policy/policy.module.css';
-import { orders } from '@/lib/orders.json';
+import ordersList from '@/lib/orders.json';
 
 export default function TrackingPage() {
+    const orders = ordersList.orders || ordersList; // Robust handling
     const [orderId, setOrderId] = useState('');
     const [email, setEmail] = useState('');
     const [result, setResult] = useState(null);

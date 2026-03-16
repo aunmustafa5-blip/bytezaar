@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import styles from './login.module.css';
 
 import { useStore } from '@/context/StoreContext';
+import usersList from '@/lib/users.json';
 
 export default function LoginPage() {
     const [isAdmin, setIsAdmin] = useState(false);
@@ -25,9 +26,6 @@ export default function LoginPage() {
             // In our system, "Google Login" checks if the user's email exists in our synced sheet data
             // For demo purposes, we'll use a test google account or the current email if provided
             const testEmail = email || 'customer@gmail.com'; 
-            
-            const usersResp = await fetch('/lib/users.json');
-            const usersList = await usersResp.json();
             
             const userMatch = usersList.find(u => u.email.toLowerCase() === testEmail.toLowerCase());
 
@@ -50,10 +48,7 @@ export default function LoginPage() {
         setLoading(true);
         
         try {
-            // Validate credentials against synced users.json
-            const usersResp = await fetch('/lib/users.json');
-            const usersList = await usersResp.json();
-            
+            // Validate credentials against synced users.json (imported statically)
             const userMatch = usersList.find(u => u.email.toLowerCase() === email.toLowerCase());
 
             if (!userMatch || userMatch.password !== password) {
