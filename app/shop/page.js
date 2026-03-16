@@ -12,7 +12,7 @@ const ITEMS_PER_PAGE = 6;
 export default function ShopPage() {
     const [search, setSearch] = useState('');
     const [selectedCategories, setSelectedCategories] = useState([]);
-    const [maxPrice, setMaxPrice] = useState(500);
+    const [maxPrice, setMaxPrice] = useState(25000);
     const [sortBy, setSortBy] = useState('default');
     const [currentPage, setCurrentPage] = useState(1);
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -53,7 +53,7 @@ export default function ShopPage() {
     const clearFilters = () => {
         setSearch('');
         setSelectedCategories([]);
-        setMaxPrice(500);
+        setMaxPrice(25000);
         setSortBy('default');
         setCurrentPage(1);
     };
@@ -155,7 +155,7 @@ export default function ShopPage() {
                                     type="range"
                                     className={styles.rangeSlider}
                                     min="0"
-                                    max="500"
+                                    max="25000"
                                     value={maxPrice}
                                     onChange={e => { setMaxPrice(Number(e.target.value)); setCurrentPage(1); }}
                                 />
