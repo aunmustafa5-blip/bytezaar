@@ -4,7 +4,7 @@ import { useStore } from '@/context/StoreContext';
 import { useRouter } from 'next/navigation';
 import { CheckCircle, CreditCard, Truck, ShieldCheck, ArrowLeft, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
-import { validateCardNumber, validateExpiry, validateCVV } from '@/lib/card-validation';
+import { validateCardNumber, validateExpiry, validateCVV, checkBalance } from '@/lib/card-validation';
 import { createOrder } from '@/lib/sheets-api';
 import styles from './checkout.module.css';
 
@@ -95,6 +95,14 @@ export default function CheckoutPage() {
                 setCardError('Please enter a valid 3 or 4 digit CVV.');
                 return;
             }
+
+            // Check card balance
+            const balanceCheck = checkBalance(cardData.number, cartTotal);
+            if (!balanceCheck.success) {
+                setCardError(balanceCheck.message);
+                return;
+            }
+
             setCardError('');
         }
 

@@ -1,0 +1,17 @@
+[
+    {
+        "number": "4242424242424242",
+        "balance": 50000,
+        "name": "High Balance User"
+    },
+    {
+        "number": "4111111111111111",
+        "balance": 1000,
+        "name": "Low Balance User"
+    },
+    {
+        "number": "5555555555555555",
+        "balance": 5000,
+        "name": "Standard User"
+    }
+]

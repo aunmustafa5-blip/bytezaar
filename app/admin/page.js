@@ -80,7 +80,10 @@ export default function AdminPage() {
         currency: 'PKR',
         instagram: 'https://www.instagram.com/byt3zaar/',
         youtube: 'https://www.youtube.com/@starrydustproductions',
-        whatsapp: '923264642243'
+        whatsapp: '923264642243',
+        bankName: '',
+        accountHolder: '',
+        accountNumber: ''
     });
 
     const [msgList, setMsgList] = useState([
@@ -515,6 +518,20 @@ export default function AdminPage() {
                             <div className="form-group">
                                 <label className="form-label">WhatsApp Number (e.g. 923xxxxxxxxx)</label>
                                 <input className="form-input" value={settings.whatsapp} onChange={e => setSettings(s => ({ ...s, whatsapp: e.target.value }))} />
+                            </div>
+
+                            <h3 style={{ fontSize: '1rem', fontWeight: '600', margin: '2rem 0 1.5rem' }}>Bank Payout Settings</h3>
+                            <div className="form-group">
+                                <label className="form-label">Bank Name</label>
+                                <input className="form-input" placeholder="e.g. HBL, Alfalah" value={settings.bankName} onChange={e => setSettings(s => ({ ...s, bankName: e.target.value }))} />
+                            </div>
+                            <div className="form-group">
+                                <label className="form-label">Account Holder Name</label>
+                                <input className="form-input" placeholder="Enter Full Name" value={settings.accountHolder} onChange={e => setSettings(s => ({ ...s, accountHolder: e.target.value }))} />
+                            </div>
+                            <div className="form-group">
+                                <label className="form-label">Account Number / IBAN</label>
+                                <input className="form-input" placeholder="PK00 XXXX XXXX XXXX XXXX" value={settings.accountNumber} onChange={e => setSettings(s => ({ ...s, accountNumber: e.target.value }))} />
                             </div>
 
                             <button className="btn btn-primary" style={{ marginTop: '1rem', width: '100%' }} onClick={handleSaveSettings}>Save Settings</button>
